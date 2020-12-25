@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:animateLayoutChanges="true"
+        android:visibility="gone"
+
+        >
+
+        <TextView
+            android:id="@+id/tv_select_menu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="操作"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp14"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/tv_select_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="全选"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:id="@+id/tv_unselect_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="全不选"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:id="@+id/tv_commit_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="批量审批"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp14" />
+
+    </LinearLayout>
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_top"
+        >
+
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dip"
+            android:paddingBottom="0dip"
+            android:scrollbars="vertical" />
+
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/flab"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/dp20"
+        android:layout_marginBottom="@dimen/dp20"
+        android:backgroundTint="#1296db"
+        app:fabSize="mini"
+        app:rippleColor="#a4d16b"
+        android:clickable="true"
+        app:elevation="@dimen/dp5"
+        app:pressedTranslationZ="10dp"
+        android:src="@drawable/fun4"
+        app:borderWidth="0dp"
+
+        >
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+<ImageView
+    android:id="@+id/nodata"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:src="@drawable/nodata2"
+    android:visibility="gone"
+    />
+</RelativeLayout>
