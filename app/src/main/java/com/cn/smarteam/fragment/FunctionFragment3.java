@@ -1,8 +1,10 @@
 package com.cn.smarteam.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.cn.myapplication.R;
+import com.blankj.utilcode.util.AppUtils;
+import com.cn.smarteam.R;
+import com.cn.smarteam.activity.ChangePwdActivity;
+import com.cn.smarteam.activity.LoginActivity;
+import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.base.Constants;
 import com.cn.smarteam.utils.SharedPreferencesUtil;
 import com.flyco.dialog.listener.OnOperItemClickL;
@@ -29,8 +35,10 @@ public class FunctionFragment3 extends Fragment implements View.OnClickListener 
     private final Context mContext;
     LinearLayout ll_font;
     LinearLayout ll_mode;
+    LinearLayout ll_pwd;
     private String[] stringItems1 = new String[]{"小", "常规", "大"};
-    private TextView tv_font;
+    private TextView tv_font,tv_name,tv_account,tv_version;
+    private TextView tv_login_out;
 
     public FunctionFragment3(Context context) {
         mContext = context;
@@ -40,9 +48,14 @@ public class FunctionFragment3 extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmrnt3, container, false);
+        tv_name = view.findViewById(R.id.tv_name);
+        tv_account = view.findViewById(R.id.tv_account);
         ll_font = view.findViewById(R.id.ll_font);
         ll_mode = view.findViewById(R.id.ll_mode);
         tv_font = view.findViewById(R.id.tv_font);
+        ll_pwd = view.findViewById(R.id.ll_pwd);
+        tv_version= view.findViewById(R.id.tv_version);
+        tv_login_out = view.findViewById(R.id.tv_login_out);
         return view;
     }
 
@@ -51,6 +64,11 @@ public class FunctionFragment3 extends Fragment implements View.OnClickListener 
         super.onViewCreated(view, savedInstanceState);
         ll_font.setOnClickListener(this);
         ll_mode.setOnClickListener(this);
+        ll_pwd.setOnClickListener(this);
+        tv_login_out.setOnClickListener(this);
+        tv_name.setText(SharedPreferencesUtil.getString(mContext,"userName"));
+        tv_account.setText(SharedPreferencesUtil.getString(mContext,"userId"));
+        tv_version.setText(AppUtils.getAppVersionName());
 
     }
 
@@ -74,15 +92,15 @@ public class FunctionFragment3 extends Fragment implements View.OnClickListener 
                         switch (position) {
                             case 0://小
                                 tv_font.setText(stringItems1[position]);
-                                SharedPreferencesUtil.setFloat(mContext, Constants.FONT_SIZE,14);
+                                SharedPreferencesUtil.setFloat(mContext, Constants.FONT_SIZE, 14);
                                 break;
                             case 1://常规
                                 tv_font.setText(stringItems1[position]);
-                                SharedPreferencesUtil.setFloat(mContext,Constants.FONT_SIZE,16);
+                                SharedPreferencesUtil.setFloat(mContext, Constants.FONT_SIZE, 16);
                                 break;
                             case 2://大
                                 tv_font.setText(stringItems1[position]);
-                                SharedPreferencesUtil.setFloat(mContext,Constants.FONT_SIZE,18);
+                                SharedPreferencesUtil.setFloat(mContext, Constants.FONT_SIZE, 18);
 
                                 break;
                         }
@@ -90,8 +108,13 @@ public class FunctionFragment3 extends Fragment implements View.OnClickListener 
                     }
                 });
                 break;
-            case R.id.ll_mode:
-
+            case R.id.ll_pwd:
+                Intent intent = new Intent(mContext, ChangePwdActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_login_out:
+                mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                getActivity().finish();
                 break;
         }
     }

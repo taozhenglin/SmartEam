@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cn.myapplication.R;
+import com.cn.smarteam.R;
 import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.adapter.CommonAdapter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -72,12 +72,12 @@ public class OrderListActivity extends BaseListActivity {
 
     private void query() {
         if (lists.size()>0){
-            iv_warm.setVisibility(View.GONE);
+            nodata.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
             include2.setVisibility(View.VISIBLE);
         }else {
             //无数据
-            iv_warm.setVisibility(View.VISIBLE);
+            nodata.setVisibility(View.VISIBLE);
             refreshLayout.setVisibility(View.GONE);
             include2.setVisibility(View.GONE);
         }
@@ -94,6 +94,11 @@ public class OrderListActivity extends BaseListActivity {
                 holder.setTextSize(R.id.tv_date);
             }
         });
+
+    }
+
+    @Override
+    public void onClick(View view) {
 
     }
 }

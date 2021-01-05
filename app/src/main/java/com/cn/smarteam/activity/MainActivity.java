@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cn.myapplication.R;
+import com.cn.smarteam.R;
 import com.cn.smarteam.fragment.FunctionFragment1;
 import com.cn.smarteam.fragment.FunctionFragment2;
 import com.cn.smarteam.fragment.FunctionFragment3;

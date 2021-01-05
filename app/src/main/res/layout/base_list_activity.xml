@@ -22,7 +22,7 @@
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/include2">
 
         <com.scwang.smart.refresh.header.ClassicsHeader
@@ -43,12 +43,14 @@
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     <ImageView
-        android:id="@+id/iv_warm"
+        android:id="@+id/nodata"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
         android:src="@drawable/nodata2"
-        android:visibility="gone" />
+        android:scaleType="centerCrop"
+        android:layout_below="@+id/include2"
+
+        />
     <ImageView
         android:id="@+id/iv_warm2"
         android:layout_width="match_parent"

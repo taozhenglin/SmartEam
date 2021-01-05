@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cn.myapplication.R;
+import com.cn.smarteam.R;
 import com.cn.smarteam.utils.SharedPreferencesUtil;
 
 /**

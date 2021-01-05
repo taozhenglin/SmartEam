@@ -1,6 +1,7 @@
 package com.cn.smarteam.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
@@ -21,6 +22,11 @@ public class BActivity extends BaseListActivity {
 
     @Override
     public void initEvent() {
+
+    }
+
+    @Override
+    public void onClick(View view) {
 
     }
 }

@@ -6,62 +6,34 @@ public class Constants {
 
 
     public static boolean DeBug = true;
-//  180
-//        public static String BASE_URL="http://192.168.1.180:7009/maximo/mobile";
-//        public static String LOGIN="/system/login";
+        public static String BASE_URL="http://47.108.68.144:9001";
+        public static String LOGIN="/user/login";
+    public static String UPDATE_USER_PWD="/user/updateUserPassWord";//更改密码
+    public static String WAIT_DO_LIST="/workOrder/getWillWorkOrderList"; // 待办工单
+    public static String MATAIN_LIST="/workOrder/getExpireWorkOrderList"; // 保养工单
+    public  static String EQMENT_LIST="/asset/getAssetsList";//获取设备列表
+    public  static String EQMENT_SEARCH_LIST="/asset/getAssetsQueryList";//设备列表模糊查询
+    public static String ASSET_RUN_PARAMETERS="/asset/getAssetRunParameters";
+    public static String GET_ASSERT_MATERIAL="/asset/getAssetMaterial";//设备台账-零配件使用情况
+    public static String GET_ASSERT_WORKORDERS="/asset/getAssetWorkOrders";//设备台账-维修工单
 //        public static  String COMMONURL="http://192.168.1.180:7009/maximo/mobile/common/api";
 //        public static String COMMONSOAP="http://192.168.1.180:7009/meaweb/services/WFSERVICE";
 //        public static String COMMONSOAP2="http://192.168.1.180:7009/meaweb/services/MOBILESERVICE";
 
-// 181
-
-//public static String BASE_URL="http://192.168.1.181:7009";
-//    public static String LOGIN="/login";
-//    public static  String COMMONURL="http://192.168.1.181:7009/api";
-//    public static String COMMONSOAP="http://192.168.1.181:7009/WFSERVICE";
-//    public static String COMMONSOAP2="http://192.168.1.181:7009/MOBILESERVICE";
-
-    //216
-//    public static String BASE_URL="http://10.169.87.216";
-//    public static String LOGIN="/login";
-////    public static  String COMMONURL="http://10.169.87.216/api";
-//    public static String COMMONSOAP="http://10.169.87.216/WFSERVICE";
-//    public static String COMMONSOAP2="http://10.169.87.216/MOBILESERVICE";
-
-    // 186
-//    public static String BASE_URL="http://10.169.88.186:7001/mobile";
-//    public static String LOGIN="/system/login";
-//    public static  String COMMONURL="http://10.169.88.186:7001/mobile/common/api";
-//    public static String COMMONSOAP="http://10.169.88.186:7001/meaweb/services/WFSERVICE";
-//    public static String COMMONSOAP2="http://10.169.88.186:7001/meaweb/services/MOBILESERVICE";
-
-    //9080
-    public static String BASE_URL="http://csct.nbport.com.cn:9080";
-    public static String LOGIN="/login";
-    public static String COMMONURL="http://csct.nbport.com.cn:9080/api";
-    public static String COMMONSOAP="http://csct.nbport.com.cn:9080/WFSERVICE";
-    public static String COMMONSOAP2="http://csct.nbport.com.cn:9080/MOBILESERVICE";
 
 
 
 
-//        public static String BASE_URL="http://10.169.87.216:7001/mobile";
-//    public static String LOGIN="/system/login";
 
-//        public static String BASE_URL="http://csct.nbport.com.cn:9080/maximo/mobile";//登录
-//    public static String LOGIN="/system/login";
-//
-//        public static String COMMONURL = "http://10.169.87.216:7001/mobile/common/api";//查询
-//    public static  String COMMONURL="http://csct.nbport.com.cn:9080/maximo/mobile/common/api";
-//
-//        public static String COMMONSOAP = "http://10.169.87.216:7001/meaweb/services/WFSERVICE";
-//public static String COMMONSOAP="http://csct.nbport.com.cn:9080/maximo/meaweb/services/WFSERVICE";
-//
-//    public static String COMMONSOAP2 = "http://10.169.87.216:7001/meaweb/services/MOBILESERVICE";
-//public static String COMMONSOAP2="http://csct.nbport.com.cn:9080/maximo/meaweb/services/MOBILESERVICE";
+
+
+
 
     public static final int NETWORN_NONE = 0;//没有网路
     public static final int NETWORN_WIFI = 1;//wifi
     public static final int NETWORN_MODEL = 2;//
+
+
+
 
 }

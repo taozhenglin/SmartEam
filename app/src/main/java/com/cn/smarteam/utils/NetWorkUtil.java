@@ -1,6 +1,5 @@
 package com.cn.smarteam.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -63,7 +62,6 @@ public class NetWorkUtil {
     /**
      * wifi是否打开
      */
-    @SuppressLint("MissingPermission")
     public static boolean isWifiEnabled(Context context) {
         ConnectivityManager mgrConn = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
