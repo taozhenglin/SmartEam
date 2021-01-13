@@ -1,5 +1,6 @@
 package com.cn.smarteam.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -250,7 +251,7 @@ public class WaitDoListBean  {
             this.navigatepageNums = navigatepageNums;
         }
 
-        public static class ListBean {
+        public static class ListBean implements Serializable {
             /**
              * workOrderId : 63
              * createBy : admin

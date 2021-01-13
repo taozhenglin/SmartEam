@@ -20,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -77,7 +81,7 @@ dependencies {
     implementation 'pub.devrel:easypermissions:1.0.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     //noinspection GradleCompatible
-    implementation 'com.android.support:design:22.2.0'
+    implementation 'com.android.support:design:27.0.1'
     //阿里热修复
     compile 'com.aliyun.ams:alicloud-android-hotfix:3.2.14'
     //noinspection GradleCompatible

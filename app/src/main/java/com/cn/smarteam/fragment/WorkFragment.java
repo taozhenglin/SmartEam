@@ -56,7 +56,7 @@ import java.util.List;
  * Created by tzl
  * on 2020/12/14
  */
-public class FunctionFragment2 extends Fragment  {
+public class WorkFragment extends Fragment  {
     private boolean isRefresh;
     private int currentPageNum = 1;
     RecyclerView recyclerView;
@@ -80,7 +80,7 @@ public class FunctionFragment2 extends Fragment  {
     private ArrayList<String> titles;
     private Fragment currentFragment;
 
-    public FunctionFragment2(Context context) {
+    public WorkFragment(Context context) {
         mContext = context;
     }
 

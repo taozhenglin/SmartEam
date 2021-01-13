@@ -6,6 +6,19 @@
 
     <include layout="@layout/activity_common_title" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp20"
+        android:paddingBottom="@dimen/dp5"
+        android:background="@color/orange"
+        android:text="详情"
+        android:textColor="@color/textColor"
+        android:textSize="16sp"
+        android:visibility="gone"
+
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="设备编号："
                 android:textColor="@color/textColor"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_no"
@@ -37,14 +50,14 @@
                 android:layout_weight="1"
                 android:text="设备编号"
                 android:textColor="@color/colorAccent"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="状态："
                 android:textColor="@color/textColor"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_statue"
@@ -52,8 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="设备状态"
-                android:textColor="@color/orange"
-                android:textSize="14sp" />
+                android:textColor="@color/textColor"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <TextView
@@ -65,7 +78,7 @@
             android:text="设备描述"
 
             android:textColor="@color/textColor"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,10 +101,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
-                android:paddingRight="10dp"
                 android:text="责任人"
                 android:textColor="@color/textColor"
-                android:textSize="14sp"
+                android:textSize="16sp"
 
                 />
 
@@ -105,47 +117,54 @@
                 android:id="@+id/tv_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/dp5"
                 android:text="时间"
                 android:textColor="@color/textColor"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp5"
-            android:background="@color/white"
-            android:paddingLeft="@dimen/dp10"
-            android:text="详情"
-            android:textColor="@color/textColor"
-            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dp15"
+                android:layout_height="@dimen/dp15"
+                android:layout_below="@+id/tv_desc"
+                android:src="@drawable/clock" />
 
             <TextView
                 android:id="@+id/tv_pur_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp2"
                 android:layout_weight="1"
                 android:text="购入日期"
                 android:textColor="@color/textColor"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="@dimen/dp15"
+                android:layout_height="@dimen/dp15"
+                android:layout_below="@+id/tv_desc"
+                android:src="@drawable/clock" />
 
             <TextView
                 android:id="@+id/tv_create_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp2"
                 android:layout_weight="1"
                 android:text="投产日期"
+
                 android:textColor="@color/textColor"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -161,7 +180,7 @@
                 android:layout_weight="1"
                 android:text="规格型号"
                 android:textColor="@color/textColor"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_type"
@@ -170,7 +189,7 @@
                 android:layout_weight="1"
                 android:text="种类"
                 android:textColor="@color/textColor"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -186,7 +205,7 @@
                 android:layout_weight="1"
                 android:text="制造单位"
                 android:textColor="@color/textColor"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_factory_no"
@@ -195,7 +214,7 @@
                 android:layout_weight="1"
                 android:text="出厂编号"
                 android:textColor="@color/textColor"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <TextView
@@ -205,20 +224,75 @@
             android:layout_margin="@dimen/dp2"
             android:text="原值"
             android:textColor="@color/textColor"
-            android:textSize="14sp"
+            android:textSize="16sp"
 
             />
     </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp5"
+    android:gravity="center_vertical"
+    >
+    <View
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
+        android:background="@color/gry33"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="零配件使用"
+        android:textColor="@color/grenn"
+        android:textSize="16sp"
+        />
+    <View
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
+        android:background="@color/gry33"
 
-    <net.lucode.hackware.magicindicator.MagicIndicator
-        android:id="@+id/magicIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp40"
-        android:background="@color/white" />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+        />
+</LinearLayout>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp40" />
+        android:layout_below="@+id/ll_top">
+
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dip"
+            android:paddingBottom="0dip"
+            android:scrollbars="vertical" />
+
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <ImageView
+        android:id="@+id/nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/nodata2"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        />
+</FrameLayout>
 </LinearLayout>

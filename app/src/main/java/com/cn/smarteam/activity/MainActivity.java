@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cn.smarteam.R;
-import com.cn.smarteam.fragment.FunctionFragment1;
-import com.cn.smarteam.fragment.FunctionFragment2;
-import com.cn.smarteam.fragment.FunctionFragment3;
+import com.cn.smarteam.fragment.FunctionFragment;
+import com.cn.smarteam.fragment.WorkFragment;
+import com.cn.smarteam.fragment.PersonalFragment;
 import com.cn.smarteam.utils.LogUtils;
 import com.cn.smarteam.utils.StatusBarUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
         viewpager = findViewById(R.id.viewpager);
         lists = new ArrayList<>();
-        FunctionFragment1 functionFragment1 = new FunctionFragment1(this);
-        FunctionFragment2 functionFragment2 = new FunctionFragment2(this);
-        FunctionFragment3 functionFragment3 = new FunctionFragment3(this);
+        FunctionFragment functionFragment1 = new FunctionFragment(this);
+        WorkFragment functionFragment2 = new WorkFragment(this);
+        PersonalFragment functionFragment3 = new PersonalFragment(this);
         navigation = findViewById(R.id.nav_view);
         displayItemNum(navigation, 1, 0);
         lists.add(functionFragment1);

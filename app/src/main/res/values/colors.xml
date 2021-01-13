@@ -12,7 +12,12 @@
     <color name="main_backgroundColor">#FFFAFAFA</color>
     <color name="gry33">#33000000</color>
     <color name="blue">#0000ff</color>
-
+    <!--港迪蓝 -->
+    <color name="guide_blue">#008FD7</color>
+    <!--粉蓝色 -->
+    <color name="powderblue">#B0E0E6</color>
+    <!--浅蓝色-->
+    <color name="wathet">#ADD8EE</color>
 
 
 </resources>

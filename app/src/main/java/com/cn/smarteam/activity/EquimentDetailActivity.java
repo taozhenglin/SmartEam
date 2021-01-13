@@ -1,47 +1,46 @@
 package com.cn.smarteam.activity;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.blankj.utilcode.util.ToastUtils;
 import com.cn.smarteam.R;
+import com.cn.smarteam.adapter.CommonAdapter;
+import com.cn.smarteam.base.CommonViewHolder;
+import com.cn.smarteam.base.Constants;
 import com.cn.smarteam.base.MyApplication;
 import com.cn.smarteam.bean.EquementListBean;
-import com.cn.smarteam.fragment.FunctionFragment2;
-import com.cn.smarteam.fragment.MaintainFragment;
-import com.cn.smarteam.fragment.MaterialUsedFragment;
-import com.cn.smarteam.fragment.RePairFragment;
-import com.cn.smarteam.fragment.WaitDoFragment;
+import com.cn.smarteam.bean.EquemtMaterialUsedListBean;
+import com.cn.smarteam.net.CallBackUtil;
+import com.cn.smarteam.net.OkhttpUtil;
 import com.cn.smarteam.utils.LogUtils;
+import com.cn.smarteam.utils.SharedPreferencesUtil;
 import com.cn.smarteam.utils.StatusBarUtils;
-import com.cn.smarteam.utils.Tools;
+import com.guideelectric.loadingdialog.view.LoadingDialog;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
-
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * Created by tzl
@@ -87,13 +86,16 @@ public class EquimentDetailActivity extends AppCompatActivity implements View.On
     TextView tvFactoryNo;
     @BindView(R.id.tv_org_value)
     TextView tvOrgValue;
-    @BindView(R.id.magicIndicator)
-    MagicIndicator magicIndicator;
-    @BindView(R.id.pager)
-    ViewPager pager;
-    private ArrayList<Fragment> fragmentList;
-    private ArrayList<String> titles;
-    private Fragment currentFragment;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+    RecyclerView.LayoutManager layoutManager;
+    private boolean isRefresh;
+    private int currentPageNum = 1;
+    private LoadingDialog ld;
+    private ImageView nodata;
+    private CommonAdapter<EquemtMaterialUsedListBean.DataBean.ListBean> adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +106,9 @@ public class EquimentDetailActivity extends AppCompatActivity implements View.On
         StatusBarUtils.setWhiteStatusBarColor(this, R.color.white);
         ButterKnife.bind(this);
         listBean = (EquementListBean.DataBean.ListBean) getIntent().getExtras().get("data");
+        String assetNum = listBean.getAssetNum();
+        LogUtils.d("222222 assetNum" + assetNum);
+
         initView();
         initEvent();
 
@@ -111,10 +116,34 @@ public class EquimentDetailActivity extends AppCompatActivity implements View.On
 
     private void initEvent() {
         llBack.setOnClickListener(this);
+        tvTitle.setOnClickListener(this);
+        ld=new LoadingDialog(this);
+        query();
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                //刷新数据
+                isRefresh = true;
+                currentPageNum = 1;
+                query();
+
+
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                isRefresh = false;
+                currentPageNum++;
+                query();
+
+            }
+        });
     }
 
     private void initView() {
         tvCommonTitle.setText("设备详情");
+        tvTitle.setText("工单详情");
         tvNo.setText(listBean.getAssetNum());
         tvStatue.setText(listBean.getStatusValue());
         tvDesc.setText("设备描述：" + listBean.getDescription());
@@ -129,121 +158,123 @@ public class EquimentDetailActivity extends AppCompatActivity implements View.On
         tvFactoryNo.setText("出厂编号：" + listBean.getInstallDate());
         tvOrgValue.setText("原值（万元）：" + listBean.getPurchasePrice());
 
-        titles = new ArrayList<String>();
-        pager.removeAllViews();
-        titles.clear();
-        titles.add("零配件使用");
-        titles.add("维修工单");
+        recyclerView = findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        nodata = findViewById(R.id.nodata);
 
-        if (fragmentList == null) {
-            fragmentList = new ArrayList<>();
-        }
-        fragmentList.clear();
-        MaterialUsedFragment waitDoFragment = new MaterialUsedFragment(MyApplication.applicationContext,listBean);
-        RePairFragment maintainFragment = new RePairFragment(MyApplication.applicationContext,listBean);
-        fragmentList.add(waitDoFragment);
-        fragmentList.add(maintainFragment);
-        MyFragmentPagerAdapter myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, titles);
-        pager.setAdapter(myFragmentPagerAdapter);
-        final CommonNavigator commonNavigator = new CommonNavigator(MyApplication.applicationContext);
-        commonNavigator.setAdjustMode(true);
-        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
-            @Override
-            public int getCount() {
-                return titles.size();
-            }
-            @Override
-            public IPagerTitleView getTitleView(Context context, final int index) {
-                SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
-                simplePagerTitleView.setText(titles.get(index));
-                simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.sp13));
-                simplePagerTitleView.setPadding(Tools.dip2px(context, 18), Tools.dip2px(context, 1), Tools.dip2px(context, 18), Tools.dip2px(context, 1));
-                simplePagerTitleView.setNormalColor(Color.parseColor("#000000"));
-                simplePagerTitleView.setSelectedColor(MyApplication.applicationContext.getResources().getColor(R.color.colorAccent));
-                simplePagerTitleView.setNormalFontSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.sp16));
-                simplePagerTitleView.setSelectedFontSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.sp20));
-//                simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        pager.setCurrentItem(index);
-                    }
-                });
-                return simplePagerTitleView;
+        refreshLayout = findViewById(R.id.refreshLayout);
 
-
-            }
-
-            @Override
-            public IPagerIndicator getIndicator(Context context) {
-                LinePagerIndicator linePagerIndicator = new LinePagerIndicator(context);
-                linePagerIndicator.setMode(LinePagerIndicator.MODE_EXACTLY);
-                linePagerIndicator.setLineWidth(Tools.dip2px(context, 30));
-                linePagerIndicator.setLineHeight(Tools.dip2px(context, 4));
-                linePagerIndicator.setRoundRadius(4);
-                linePagerIndicator.setColors(ContextCompat.getColor(MyApplication.applicationContext, R.color.colorAccent));
-                return linePagerIndicator;
-            }
-        });
-        magicIndicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(magicIndicator, pager);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                magicIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
-//                magicIndicator.onPageSelected(position);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                LogUtils.d("222222", "position=" + position);
-//                magicIndicator.onPageSelected(position);
-                currentFragment = fragmentList.get(position);
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-//                magicIndicator.onPageScrollStateChanged(state);
-            }
-        });
-
-        pager.setCurrentItem(0);
-        currentFragment = fragmentList.get(0);
+//
 
     }
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.ll_back:
+                finish();
+                break;
+            case R.id.tv_title:
+               startActivity(new Intent(this, EqumentWorderOrderDetailActivity.class).putExtra("listBean",listBean));
+                break;
+        }
 
     }
-    public class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
-        private ArrayList<Fragment> fragmentLists;
-        private ArrayList<String> titlelists;
 
-        public MyFragmentPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList, ArrayList<String> titleList) {
-            super(fm);
-            this.fragmentLists = fragmentList;
-            this.titlelists = titleList;
+
+private void query() {
+    String url = Constants.BASE_URL + Constants.GET_ASSERT_MATERIAL;
+    HashMap<String, String> map = new HashMap<>();
+    map.put("pageNum", currentPageNum + "");
+    map.put("pageSize", 10 + "");
+//        String assetNum = mListBean.getAssetNum();
+//        assetNum = URLEncoder.encode(assetNum);
+    map.put("woNum",listBean.getAssetNum());
+
+    HashMap<String, String> headermap = new HashMap<>();
+    headermap.put("authorization", SharedPreferencesUtil.getString(MyApplication.applicationContext, "authorization"));
+    headermap.put("Content-Type", "application/json");
+    OkhttpUtil.okHttpGet(url, map, headermap, new CallBackUtil.CallBackString() {
+        @Override
+        public void onFailure(Call call, Exception e) {
+            LogUtils.d("onFailure==" + e.toString());
+            ld.close();
+            finishRefresh();
         }
-
 
         @Override
-        public Fragment getItem(int position) {
-            return fragmentLists.get(position);
-        }
+        public void onResponse(String response) {
+            LogUtils.d("onResponse==" + response);
+            ld.close();
+            finishRefresh();
+            if (!response.isEmpty()) {
+                final EquemtMaterialUsedListBean equemtMaterialUsedListBean = JSONObject.parseObject(response, new TypeReference<EquemtMaterialUsedListBean>() {});
+                if (equemtMaterialUsedListBean.getCode() == 200) {
+                    List<EquemtMaterialUsedListBean.DataBean.ListBean> list = equemtMaterialUsedListBean.getData().getList();
+                    LogUtils.d("222222 list.size()="+list.size());
+                    int totalpage=equemtMaterialUsedListBean.getData().getPages();
+                    if (currentPageNum == 1) {
+                        if (adapter == null) {
+                            adapter = new CommonAdapter<EquemtMaterialUsedListBean.DataBean.ListBean>(MyApplication.applicationContext, R.layout.material_used_list_item, list) {
+                                @Override
+                                public void convert(CommonViewHolder holder, EquemtMaterialUsedListBean.DataBean.ListBean listBean) {
+                                    TextView tv_no = holder.getView(R.id.tv_no);
+                                    TextView tv_material_name = holder.getView(R.id.tv_material_name);
+                                    TextView tv_material_model = holder.getView(R.id.tv_material_model);
+                                    TextView tv_material_count = holder.getView(R.id.tv_material_count);
+                                    TextView tv_unit_price = holder.getView(R.id.tv_unit_price);
+                                    TextView tv_total = holder.getView(R.id.tv_total);
 
-        @Override
-        public int getCount() {
-            return fragmentLists.size();
-        }
+                                    tv_no.setText("行编号：" + listBean.getItemNum());
+                                    tv_material_name.setText("配件名称：" + listBean.getAccessoriesName());
+                                    tv_material_model.setText("规格型号：" + listBean.getSpecifications());
+                                    tv_material_count.setText("配件数量：" + listBean.getQuantity());
+                                    tv_unit_price.setText("配件单价：" + listBean.getUnitCost());
+                                    tv_total.setText("配件总价：" + listBean.getLineCost());
 
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titlelists.get(position);
+                                    holder.setTextSize(R.id.tv_no);
+                                    holder.setTextSize(R.id.tv_material_name);
+                                    holder.setTextSize(R.id.tv_material_model);
+                                    holder.setTextSize(R.id.tv_material_count);
+                                    holder.setTextSize(R.id.tv_unit_price);
+                                    holder.setTextSize(R.id.tv_total);
+
+
+                                }
+                            };
+                            recyclerView.setAdapter(adapter);
+
+                        } else {
+                            adapter.setData(list);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }else {
+                        //不是第一页
+                        if (currentPageNum<=totalpage){
+                            adapter.addAllList(list);
+                            adapter.notifyDataSetChanged();
+                        }else {
+                            ToastUtils.showShort("没有更多数据了");
+                        }
+                    }
+                    if (adapter.getData().size()==0){
+                        nodata.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                }
+            }
         }
+    });
+}
+
+
+
+
+    private void finishRefresh() {
+        if (isRefresh) refreshLayout.finishRefresh();
+        else refreshLayout.finishLoadMore();
     }
 }

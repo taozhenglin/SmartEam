@@ -22,16 +22,19 @@ import com.cn.smarteam.activity.ChangePwdActivity;
 import com.cn.smarteam.activity.LoginActivity;
 import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.base.Constants;
+import com.cn.smarteam.bean.PostData;
 import com.cn.smarteam.utils.SharedPreferencesUtil;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
  * Created by tzl
  * on 2020/12/14
  */
-public class FunctionFragment3 extends Fragment implements View.OnClickListener {
+public class PersonalFragment extends Fragment implements View.OnClickListener {
     private final Context mContext;
     LinearLayout ll_font;
     LinearLayout ll_mode;
@@ -39,8 +42,8 @@ public class FunctionFragment3 extends Fragment implements View.OnClickListener 
     private String[] stringItems1 = new String[]{"小", "常规", "大"};
     private TextView tv_font,tv_name,tv_account,tv_version;
     private TextView tv_login_out;
-
-    public FunctionFragment3(Context context) {
+    PostData postData;
+    public PersonalFragment(Context context) {
         mContext = context;
     }
 
@@ -69,6 +72,19 @@ public class FunctionFragment3 extends Fragment implements View.OnClickListener 
         tv_name.setText(SharedPreferencesUtil.getString(mContext,"userName"));
         tv_account.setText(SharedPreferencesUtil.getString(mContext,"userId"));
         tv_version.setText(AppUtils.getAppVersionName());
+        switch ((int) SharedPreferencesUtil.getFloat(mContext, Constants.FONT_SIZE)){
+            case 14:
+                tv_font.setText("小");
+                break;
+            case 16:
+                tv_font.setText("常规");
+                break;
+            case 18:
+                tv_font.setText("大");
+                break;
+        }
+        postData=new PostData();
+        postData.setTag("query");
 
     }
 
@@ -93,14 +109,19 @@ public class FunctionFragment3 extends Fragment implements View.OnClickListener 
                             case 0://小
                                 tv_font.setText(stringItems1[position]);
                                 SharedPreferencesUtil.setFloat(mContext, Constants.FONT_SIZE, 14);
+                                EventBus.getDefault().post(postData);
                                 break;
                             case 1://常规
                                 tv_font.setText(stringItems1[position]);
                                 SharedPreferencesUtil.setFloat(mContext, Constants.FONT_SIZE, 16);
+                                EventBus.getDefault().post(postData);
+
                                 break;
                             case 2://大
                                 tv_font.setText(stringItems1[position]);
                                 SharedPreferencesUtil.setFloat(mContext, Constants.FONT_SIZE, 18);
+                                EventBus.getDefault().post(postData);
+
 
                                 break;
                         }

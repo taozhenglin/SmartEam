@@ -16,5 +16,12 @@
     <dimen name="dp10">10dp</dimen>
     <dimen name="sp13">13sp</dimen>
     <dimen name="sp20">20sp</dimen>
+    <dimen name="sp21">21sp</dimen>
+    <dimen name="sp22">22sp</dimen>
+    <dimen name="sp23">23sp</dimen>
+    <dimen name="sp24">24sp</dimen>
+
+
     <dimen name="dp2">2dp</dimen>
+    <dimen name="dp18">18dp</dimen>
 </resources>

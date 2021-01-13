@@ -129,19 +129,14 @@ public class EqumentAccountListActivity extends BaseListActivity {
         String assetNum=edt_search1.getText().toString();
         String description=edt_search2.getText().toString();
         if (searchType==1||searchType==2||searchType==3) {
-            url = Constants.BASE_URL + Constants.EQMENT_SEARCH_LIST;
+            url = Constants.BASE_URL + Constants.EQMENT_SEARCH_LIST;//模糊搜索
         } else {
-            url = Constants.BASE_URL + Constants.EQMENT_LIST;
+            url = Constants.BASE_URL + Constants.EQMENT_LIST;//搜索全部
 
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("pageNum", currentPageNum + "");
         map.put("pageSize", 10 + "");
-//        if (searchType==1) {
-//            map.put("assetNum", assetNum );
-//        }else if (searchType==2){
-//            map.put("description", description );
-//        }else
             if (searchType==3){
             map.put("assetNum", assetNum );
             map.put("description", description );

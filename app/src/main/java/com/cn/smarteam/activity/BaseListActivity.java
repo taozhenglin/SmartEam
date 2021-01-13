@@ -1,5 +1,6 @@
 package com.cn.smarteam.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -29,7 +30,7 @@ public abstract  class BaseListActivity extends AppCompatActivity implements Vie
      SmartRefreshLayout refreshLayout;
      RecyclerView.LayoutManager layoutManager;
      LinearLayout ll_back;
-     TextView tv_common_title;
+     public TextView tv_common_title;
      TextView tv_title;
     ImageView iv_fun;
     ImageView nodata;
@@ -37,11 +38,13 @@ public abstract  class BaseListActivity extends AppCompatActivity implements Vie
     LinearLayout ll_top;
      View include2;
     ImageView iv_search1,iv_search2;
+     Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_list_activity);
+        mContext=this;
         //隐藏标题栏
         getSupportActionBar().hide();
         StatusBarUtils.setWhiteStatusBarColor(this, R.color.white);

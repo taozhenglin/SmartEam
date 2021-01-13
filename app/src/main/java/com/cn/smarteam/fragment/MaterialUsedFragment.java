@@ -1,18 +1,15 @@
 package com.cn.smarteam.fragment;
 
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,8 +22,9 @@ import com.cn.smarteam.R;
 import com.cn.smarteam.adapter.CommonAdapter;
 import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.base.Constants;
+import com.cn.smarteam.bean.DxjWorkOrderListBean;
 import com.cn.smarteam.bean.EquementListBean;
-import com.cn.smarteam.bean.WaitDoListBean;
+import com.cn.smarteam.bean.EquemtMaterialUsedListBean;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
 import com.cn.smarteam.utils.LogUtils;
@@ -48,17 +46,17 @@ import okhttp3.Call;
  */
 public class MaterialUsedFragment extends Fragment {
     private final Context mContext;
-    private final EquementListBean.DataBean.ListBean mListBean;
+    private final DxjWorkOrderListBean.DataBean.ListBean mListBean;
     RecyclerView recyclerView;
     SmartRefreshLayout refreshLayout;
     RecyclerView.LayoutManager layoutManager;
     private boolean isRefresh;
     private int currentPageNum = 1;
-    private CommonAdapter<WaitDoListBean.DataBean.ListBean> adapter;
     private LoadingDialog ld;
     private ImageView nodata;
+    private CommonAdapter<EquemtMaterialUsedListBean.DataBean.ListBean> adapter;
 
-    public MaterialUsedFragment(Context context, EquementListBean.DataBean.ListBean listBean) {
+    public MaterialUsedFragment(Context context, DxjWorkOrderListBean.DataBean.ListBean listBean) {
         mContext=context;
         mListBean=listBean;
     }
@@ -75,7 +73,8 @@ public class MaterialUsedFragment extends Fragment {
         nodata = view.findViewById(R.id.nodata);
 
         refreshLayout = view.findViewById(R.id.refreshLayout);
-        return view;    }
+        return view;
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -107,11 +106,15 @@ public class MaterialUsedFragment extends Fragment {
 
 
     private void query() {
-        String url = Constants.BASE_URL + Constants.GET_ASSERT_MATERIAL;
+        String url = Constants.BASE_URL + Constants.GET_WAITDO_MATERIAL_LIST;
         HashMap<String, String> map = new HashMap<>();
         map.put("pageNum", currentPageNum + "");
-        map.put("pageSize", 10 + "");
-        map.put("assetNum",mListBean.getAssetNum());
+        map.put("pageSize", 5 + "");
+//        String assetNum = mListBean.getAssetNum();
+//        assetNum = URLEncoder.encode(assetNum);
+//        map.put("assetNum",mListBean.getAssetNum());
+        map.put("woNum",mListBean.getWoNum());
+
         HashMap<String, String> headermap = new HashMap<>();
         headermap.put("authorization", SharedPreferencesUtil.getString(mContext, "authorization"));
         headermap.put("Content-Type", "application/json");
@@ -129,88 +132,40 @@ public class MaterialUsedFragment extends Fragment {
                 ld.close();
                 finishRefresh();
                 if (!response.isEmpty()) {
-                    final WaitDoListBean waitDoListBean = JSONObject.parseObject(response, new TypeReference<WaitDoListBean>() {});
-                    if (waitDoListBean.getCode() == 200) {
-                        List<WaitDoListBean.DataBean.ListBean> list = waitDoListBean.getData().getList();
+                    final EquemtMaterialUsedListBean equemtMaterialUsedListBean = JSONObject.parseObject(response, new TypeReference<EquemtMaterialUsedListBean>() {});
+                    if (equemtMaterialUsedListBean.getCode() == 200) {
+                        List<EquemtMaterialUsedListBean.DataBean.ListBean> list = equemtMaterialUsedListBean.getData().getList();
                         LogUtils.d("222222 list.size()="+list.size());
-                        int totalpage=waitDoListBean.getData().getPages();
-                        if (list.size() > 0) {
-                            nodata.setVisibility(View.GONE);
-                            for (int i = 0; i < list.size(); i++) {
-                                list.get(i).setChecked(false);
-                            }
+                        int totalpage=equemtMaterialUsedListBean.getData().getPages();
+                        int total=equemtMaterialUsedListBean.getData().getTotal();
+
+                        if (total>0){
                             if (currentPageNum == 1) {
                                 if (adapter == null) {
-                                    adapter = new CommonAdapter<WaitDoListBean.DataBean.ListBean>(mContext, R.layout.waitdo_list_item, list) {
+                                    adapter = new CommonAdapter<EquemtMaterialUsedListBean.DataBean.ListBean>(mContext, R.layout.material_used_list_item, list) {
                                         @Override
-                                        public void convert(CommonViewHolder holder, final WaitDoListBean.DataBean.ListBean listBean) {
-                                            CheckBox checkbox = holder.getView(R.id.checkbox);
+                                        public void convert(CommonViewHolder holder, EquemtMaterialUsedListBean.DataBean.ListBean listBean) {
                                             TextView tv_no = holder.getView(R.id.tv_no);
-                                            TextView tv_statue = holder.getView(R.id.tv_statue);
-                                            TextView tv_type = holder.getView(R.id.tv_type);
-                                            TextView tv_desc = holder.getView(R.id.tv_desc);
-                                            CardView cardview = holder.getView(R.id.cardview);
-                                            TextView tv_dute = holder.getView(R.id.tv_dute);
+                                            TextView tv_material_name = holder.getView(R.id.tv_material_name);
+                                            TextView tv_material_model = holder.getView(R.id.tv_material_model);
+                                            TextView tv_material_count = holder.getView(R.id.tv_material_count);
+                                            TextView tv_unit_price = holder.getView(R.id.tv_unit_price);
+                                            TextView tv_total = holder.getView(R.id.tv_total);
 
-                                            tv_no.setText("工单编号：" + listBean.getWoNum());
-                                            tv_statue.setText(listBean.getStatusValue());
-                                            if (listBean.getStatus() == 4) {//已完工
-                                                tv_statue.setTextColor(getResources().getColor(R.color.grenn));
-                                            } else if (listBean.getStatus() == 2) {//已派发
-                                                tv_statue.setTextColor(getResources().getColor(R.color.orange));
-                                            } else if (listBean.getStatus() == 1) {//未排发
-                                                tv_statue.setTextColor(getResources().getColor(R.color.textColor));
-                                            } else if (listBean.getStatus() == 3) {//进行中
-                                                tv_statue.setTextColor(getResources().getColor(R.color.config_color_red));
-                                            } else {
+                                            tv_no.setText("行编号：" + listBean.getItemNum());
+                                            tv_material_name.setText("配件名称：" + listBean.getAccessoriesName());
+                                            tv_material_model.setText("规格型号：" + listBean.getSpecifications());
+                                            tv_material_count.setText("配件数量：" + listBean.getQuantity());
+                                            tv_unit_price.setText("配件单价：" + listBean.getUnitCost());
+                                            tv_total.setText("配件总价：" + listBean.getLineCost());
 
-                                            }
-
-                                            tv_type.setText("工单类型：" + listBean.getWorkTypeValue());
-                                            tv_desc.setText("工单描述：" + listBean.getDescription());
-                                            tv_dute.setText("负责人：" + listBean.getPersonName());
-
-
-                                            if (mFlag) {
-                                                checkbox.setVisibility(View.VISIBLE);
-                                            } else {
-                                                checkbox.setVisibility(View.GONE);
-                                            }
-                                            checkbox.setChecked(listBean.isChecked());
-
-                                            holder.setOnClickListener(R.id.checkbox, new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    if (listBean.isChecked()) {
-                                                        listBean.setChecked(false);
-                                                    } else
-                                                        listBean.setChecked(true);
-                                                }
-                                            });
-                                            holder.setOnClickListener(R.id.cardview, new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    switch (listBean.getWorkType()){
-                                                        case 1://保养工单
-
-                                                            break;
-                                                        case 2://维修工单
-
-                                                            break;
-                                                        case 3://点巡检工单
-
-                                                            break;
-                                                    }
-                                                }
-                                            });
                                             holder.setTextSize(R.id.tv_no);
-                                            holder.setTextSize(R.id.tv_statue);
-                                            holder.setTextSize(R.id.tv_type);
-                                            holder.setTextSize(R.id.tv_desc);
-                                            holder.setTextSize(R.id.tv_dute);
-                                            holder.setTextSize(R.id.tv_date);
+                                            holder.setTextSize(R.id.tv_material_name);
+                                            holder.setTextSize(R.id.tv_material_model);
+                                            holder.setTextSize(R.id.tv_material_count);
+                                            holder.setTextSize(R.id.tv_unit_price);
+                                            holder.setTextSize(R.id.tv_total);
                                         }
-
                                     };
                                     recyclerView.setAdapter(adapter);
 
@@ -227,19 +182,21 @@ public class MaterialUsedFragment extends Fragment {
                                     ToastUtils.showShort("没有更多数据了");
                                 }
                             }
-                            if (adapter.getData().size()==0){
+                        }else {
                                 nodata.setVisibility(View.VISIBLE);
 
-                            }
-
+                        }
                         } else {
+                        ToastUtils.showShort(equemtMaterialUsedListBean.getMsg());
                         }
                     }
                 }
-            }
         });
+            }
 
-    }
+
+
+
     private void finishRefresh() {
         if (isRefresh) refreshLayout.finishRefresh();
         else refreshLayout.finishLoadMore();

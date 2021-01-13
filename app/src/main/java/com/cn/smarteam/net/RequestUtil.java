@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.LogUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -147,18 +148,18 @@ public class RequestUtil {
                     @Override
                     public List<Cookie> loadForRequest(HttpUrl url) {
 
-//                        if (url.pathSegments().get(0).toLowerCase().equals("login")) {
-//
-//                            //登录时清掉全部cookie
-//                            cookieStore.clear();
-//                            LogUtils.d("222222", "cookieStore.clear() for login" );
-//
-//                        }
-                        if (url.pathSegments().contains("readLoginImage")){
+                        if (url.pathSegments().get(0).toLowerCase().equals("login")) {
+
+                            //登录时清掉全部cookie
                             cookieStore.clear();
-                            LogUtils.d("222222", "cookieStore.clear() for readLoginImage" );
+                            LogUtils.d("222222", "cookieStore.clear() for login" );
 
                         }
+//                        if (url.pathSegments().contains("readLoginImage")){
+//                            cookieStore.clear();
+//                            LogUtils.d("222222", "cookieStore.clear() for readLoginImage" );
+//
+//                        }
                         List<Cookie> cookies = cookieStore.get(url.host());
 
                         return cookies != null ? cookies : new ArrayList<Cookie>();
@@ -278,7 +279,7 @@ public class RequestUtil {
 
             for (String key : mParamsMap.keySet()) {
 
-                mUrl = mUrl + key + "=" + mParamsMap.get(key) + "&";
+                mUrl = mUrl + key + "=" + URLEncoder.encode(mParamsMap.get(key)) + "&";
 
             }
 

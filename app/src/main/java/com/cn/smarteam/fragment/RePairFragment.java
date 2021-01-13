@@ -21,10 +21,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cn.smarteam.R;
+import com.cn.smarteam.activity.EqumentWorderOrderDetailActivity;
 import com.cn.smarteam.adapter.CommonAdapter;
 import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.base.Constants;
 import com.cn.smarteam.bean.EquementListBean;
+import com.cn.smarteam.bean.EqumetMatainWorkOrderListBean;
+import com.cn.smarteam.bean.EqumetRepairWorkOrderListBean;
 import com.cn.smarteam.bean.WaitDoListBean;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
@@ -48,18 +51,29 @@ import okhttp3.Call;
 public class RePairFragment extends Fragment {
     private final EquementListBean.DataBean.ListBean mListBean;
     private final Context mContext;
+    private final int mType;
     RecyclerView recyclerView;
     SmartRefreshLayout refreshLayout;
     RecyclerView.LayoutManager layoutManager;
     private boolean isRefresh;
     private int currentPageNum = 1;
-    private CommonAdapter<WaitDoListBean.DataBean.ListBean> adapter;
+    private CommonAdapter<EqumetMatainWorkOrderListBean.DataBean.ListBean> adapter1;
     private ImageView nodata;
     private LoadingDialog ld;
+    private CommonAdapter<EqumetMatainWorkOrderListBean.DataBean.ListBean> adapter2;
+    private CommonAdapter<EqumetMatainWorkOrderListBean.DataBean.ListBean> adapter3;
 
-    public RePairFragment(Context context, EquementListBean.DataBean.ListBean listBean) {
-        mContext=context;
-        mListBean=listBean;
+
+    /**
+     * @param context
+     * @param listBean
+     * @param i        1保养工单 2 维修工单 3 点巡检工单
+     */
+    public RePairFragment(Context context, EquementListBean.DataBean.ListBean listBean, int i) {
+        mContext = context;
+        mListBean = listBean;
+        mType = i;
+
     }
 
     @Nullable
@@ -80,15 +94,26 @@ public class RePairFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ld = new LoadingDialog(mContext);
-
-        query();
+        if (mType == 1) {
+            query1();
+        } else if (mType == 2) {
+            query2();
+        } else{
+            query3();
+        }
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 //刷新数据
                 isRefresh = true;
                 currentPageNum = 1;
-                query();
+                if (mType == 1) {
+                    query1();
+                } else if (mType == 2) {
+                    query2();
+                } else{
+                    query3();
+                }
 
 
             }
@@ -98,22 +123,29 @@ public class RePairFragment extends Fragment {
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 isRefresh = false;
                 currentPageNum++;
-                query();
+                if (mType == 1) {
+                    query1();
+                } else if (mType == 2) {
+                    query2();
+                } else{
+                    query3();
+                }
 
             }
         });
     }
-
-    private void query() {
+//保养工单
+    private void query1() {
         String url = Constants.BASE_URL + Constants.GET_ASSERT_WORKORDERS;
         HashMap<String, String> map = new HashMap<>();
         map.put("pageNum", currentPageNum + "");
-        map.put("pageSize", 10 + "");
-        map.put("assetNum",mListBean.getAssetNum());
+        map.put("pageSize", 5 + "");
+        map.put("assetNum", mListBean.getAssetNum());
+        map.put("worktype", 1 + "");
         HashMap<String, String> headermap = new HashMap<>();
         headermap.put("authorization", SharedPreferencesUtil.getString(mContext, "authorization"));
         headermap.put("Content-Type", "application/json");
-        OkhttpUtil.okHttpGet(url, map, headermap, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpGet(url, headermap, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
                 LogUtils.d("onFailure==" + e.toString());
@@ -127,105 +159,64 @@ public class RePairFragment extends Fragment {
                 ld.close();
                 finishRefresh();
                 if (!response.isEmpty()) {
-                    final WaitDoListBean waitDoListBean = JSONObject.parseObject(response, new TypeReference<WaitDoListBean>() {});
-                    if (waitDoListBean.getCode() == 200) {
-                        List<WaitDoListBean.DataBean.ListBean> list = waitDoListBean.getData().getList();
-                        LogUtils.d("222222 list.size()="+list.size());
-                        int totalpage=waitDoListBean.getData().getPages();
+                    final EqumetMatainWorkOrderListBean equmetMatainWorkOrderListBean = JSONObject.parseObject(response, new TypeReference<EqumetMatainWorkOrderListBean>() {});
+                    if (equmetMatainWorkOrderListBean.getCode() == 200) {
+                        List<EqumetMatainWorkOrderListBean.DataBean.ListBean> list = equmetMatainWorkOrderListBean.getData().getList();
+                        LogUtils.d("222222 list.size()=" + list.size());
+                        int totalpage = equmetMatainWorkOrderListBean.getData().getPages();
                         if (list.size() > 0) {
                             nodata.setVisibility(View.GONE);
-                            for (int i = 0; i < list.size(); i++) {
-                                list.get(i).setChecked(false);
-                            }
+
                             if (currentPageNum == 1) {
-                                if (adapter == null) {
-                                    adapter = new CommonAdapter<WaitDoListBean.DataBean.ListBean>(mContext, R.layout.waitdo_list_item, list) {
+                                if (adapter1 == null) {
+                                    adapter1 = new CommonAdapter<EqumetMatainWorkOrderListBean.DataBean.ListBean>(mContext, R.layout.common_workorder_item, list) {
                                         @Override
-                                        public void convert(CommonViewHolder holder, final WaitDoListBean.DataBean.ListBean listBean) {
-                                            CheckBox checkbox = holder.getView(R.id.checkbox);
+                                        public void convert(CommonViewHolder holder, final EqumetMatainWorkOrderListBean.DataBean.ListBean listBean) {
                                             TextView tv_no = holder.getView(R.id.tv_no);
-                                            TextView tv_statue = holder.getView(R.id.tv_statue);
-                                            TextView tv_type = holder.getView(R.id.tv_type);
+                                            TextView tv_order_no = holder.getView(R.id.tv_order_no);
+                                            TextView tv_desc1 = holder.getView(R.id.tv_desc1);
                                             TextView tv_desc = holder.getView(R.id.tv_desc);
-                                            CardView cardview = holder.getView(R.id.cardview);
-                                            TextView tv_dute = holder.getView(R.id.tv_dute);
+                                            TextView tv_lasttime = holder.getView(R.id.tv_lasttime);
+                                            TextView tv_nexttime = holder.getView(R.id.tv_nexttime);
+                                            TextView tv_unit = holder.getView(R.id.tv_unit);
+                                            TextView tv_frequency = holder.getView(R.id.tv_frequency);
 
-                                            tv_no.setText("工单编号：" + listBean.getWoNum());
-                                            tv_statue.setText(listBean.getStatusValue());
-                                            if (listBean.getStatus() == 4) {//已完工
-                                                tv_statue.setTextColor(getResources().getColor(R.color.grenn));
-                                            } else if (listBean.getStatus() == 2) {//已派发
-                                                tv_statue.setTextColor(getResources().getColor(R.color.orange));
-                                            } else if (listBean.getStatus() == 1) {//未排发
-                                                tv_statue.setTextColor(getResources().getColor(R.color.textColor));
-                                            } else if (listBean.getStatus() == 3) {//进行中
-                                                tv_statue.setTextColor(getResources().getColor(R.color.config_color_red));
-                                            } else {
+                                            tv_no.setText("行编号：" + listBean.getWorkOrderId());
+                                            tv_order_no.setText("工单编号：" + listBean.getWoNum());
+                                            tv_desc.setText(listBean.getDescription());
+                                            tv_lasttime.setText("上次保养时间：" + listBean.getLastStartDate());
+                                            tv_nexttime.setText("下次保养时间：" + listBean.getNextCompDate());
+                                            tv_unit.setText("频率：" + listBean.getFrequency());
+                                            tv_frequency.setText("频率单位:" + listBean.getFreqUnitValue());
 
-                                            }
-
-                                            tv_type.setText("工单类型：" + listBean.getWorkTypeValue());
-                                            tv_desc.setText("工单描述：" + listBean.getDescription());
-                                            tv_dute.setText("负责人：" + listBean.getPersonName());
-
-
-                                            if (mFlag) {
-                                                checkbox.setVisibility(View.VISIBLE);
-                                            } else {
-                                                checkbox.setVisibility(View.GONE);
-                                            }
-                                            checkbox.setChecked(listBean.isChecked());
-
-                                            holder.setOnClickListener(R.id.checkbox, new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    if (listBean.isChecked()) {
-                                                        listBean.setChecked(false);
-                                                    } else
-                                                        listBean.setChecked(true);
-                                                }
-                                            });
-                                            holder.setOnClickListener(R.id.cardview, new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    switch (listBean.getWorkType()){
-                                                        case 1://保养工单
-
-                                                            break;
-                                                        case 2://维修工单
-
-                                                            break;
-                                                        case 3://点巡检工单
-
-                                                            break;
-                                                    }
-                                                }
-                                            });
                                             holder.setTextSize(R.id.tv_no);
-                                            holder.setTextSize(R.id.tv_statue);
-                                            holder.setTextSize(R.id.tv_type);
+                                            holder.setTextSize(R.id.tv_order_no);
+                                            holder.setTextSize(R.id.tv_desc1);
                                             holder.setTextSize(R.id.tv_desc);
-                                            holder.setTextSize(R.id.tv_dute);
-                                            holder.setTextSize(R.id.tv_date);
+
+                                            holder.setTextSize(R.id.tv_lasttime);
+                                            holder.setTextSize(R.id.tv_nexttime);
+                                            holder.setTextSize(R.id.tv_unit);
+                                            holder.setTextSize(R.id.tv_frequency);
                                         }
 
                                     };
-                                    recyclerView.setAdapter(adapter);
+                                    recyclerView.setAdapter(adapter1);
 
                                 } else {
-                                    adapter.setData(list);
-                                    adapter.notifyDataSetChanged();
+                                    adapter1.setData(list);
+                                    adapter1.notifyDataSetChanged();
                                 }
-                            }else {
+                            } else {
                                 //不是第一页
-                                if (currentPageNum<=totalpage){
-                                    adapter.addAllList(list);
-                                    adapter.notifyDataSetChanged();
-                                }else {
+                                if (currentPageNum <= totalpage) {
+                                    adapter1.addAllList(list);
+                                    adapter1.notifyDataSetChanged();
+                                } else {
                                     ToastUtils.showShort("没有更多数据了");
                                 }
                             }
-                            if (adapter.getData().size()==0){
+                            if (adapter1.getData().size() == 0) {
                                 nodata.setVisibility(View.VISIBLE);
 
                             }
@@ -233,10 +224,202 @@ public class RePairFragment extends Fragment {
                         } else {
                         }
                     }
+                }else {
+
                 }
             }
         });
 
+    }
+//维修工单
+    private void query2() {
+        String url = Constants.BASE_URL + Constants.GET_ASSERT_WORKORDERS;
+        HashMap<String, String> map = new HashMap<>();
+        map.put("pageNum", currentPageNum + "");
+        map.put("pageSize", 5 + "");
+        map.put("assetNum", mListBean.getAssetNum());
+        map.put("worktype", 2 + "");
+        HashMap<String, String> headermap = new HashMap<>();
+        headermap.put("authorization", SharedPreferencesUtil.getString(mContext, "authorization"));
+        headermap.put("Content-Type", "application/json");
+        OkhttpUtil.okHttpGet(url, headermap, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+                LogUtils.d("onFailure==" + e.toString());
+                ld.close();
+                finishRefresh();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                LogUtils.d("onResponse==" + response);
+                ld.close();
+                finishRefresh();
+                if (!response.isEmpty()) {
+                    final EqumetMatainWorkOrderListBean equmetMatainWorkOrderListBean = JSONObject.parseObject(response, new TypeReference<EqumetMatainWorkOrderListBean>() {});
+                    if (equmetMatainWorkOrderListBean.getCode() == 200) {
+                        List<EqumetMatainWorkOrderListBean.DataBean.ListBean> list = equmetMatainWorkOrderListBean.getData().getList();
+                        LogUtils.d("222222 list.size()=" + list.size());
+                        int totalpage = equmetMatainWorkOrderListBean.getData().getPages();
+                        if (list.size() > 0) {
+                            nodata.setVisibility(View.GONE);
+
+                            if (currentPageNum == 1) {
+                                if (adapter2 == null) {
+                                    adapter2 = new CommonAdapter<EqumetMatainWorkOrderListBean.DataBean.ListBean>(mContext, R.layout.common_workorder_item, list) {
+                                        @Override
+                                        public void convert(CommonViewHolder holder, final EqumetMatainWorkOrderListBean.DataBean.ListBean listBean) {
+                                            TextView tv_no = holder.getView(R.id.tv_no);
+                                            TextView tv_order_no = holder.getView(R.id.tv_order_no);
+                                            TextView tv_desc1 = holder.getView(R.id.tv_desc1);
+                                            TextView tv_desc = holder.getView(R.id.tv_desc);
+                                            TextView tv_lasttime = holder.getView(R.id.tv_lasttime);
+                                            TextView tv_nexttime = holder.getView(R.id.tv_nexttime);
+                                            TextView tv_unit = holder.getView(R.id.tv_unit);
+                                            TextView tv_frequency = holder.getView(R.id.tv_frequency);
+
+                                            tv_no.setText("行编号：" + listBean.getWorkOrderId());
+                                            tv_order_no.setText("工单编号：" + listBean.getWoNum());
+                                            tv_desc.setText(listBean.getDescription());
+                                            tv_lasttime.setText("工单开始时间：" + listBean.getActualStartTime());
+                                            tv_nexttime.setText("工单完成时间：" + listBean.getActualFinishTime());
+                                            tv_unit.setText("故障类：" + listBean.getFailureName());
+                                            tv_frequency.setText("故障时间:" + listBean.getFailureTime());
+
+                                            holder.setTextSize(R.id.tv_no);
+                                            holder.setTextSize(R.id.tv_order_no);
+                                            holder.setTextSize(R.id.tv_desc);
+                                            holder.setTextSize(R.id.tv_desc1);
+                                            holder.setTextSize(R.id.tv_lasttime);
+                                            holder.setTextSize(R.id.tv_nexttime);
+                                            holder.setTextSize(R.id.tv_unit);
+                                            holder.setTextSize(R.id.tv_frequency);
+                                        }
+
+                                    };
+                                    recyclerView.setAdapter(adapter2);
+
+                                } else {
+                                    adapter2.setData(list);
+                                    adapter2.notifyDataSetChanged();
+                                }
+                            } else {
+                                //不是第一页
+                                if (currentPageNum <= totalpage) {
+                                    adapter2.addAllList(list);
+                                    adapter2.notifyDataSetChanged();
+                                } else {
+                                    ToastUtils.showShort("没有更多数据了");
+                                }
+                            }
+                            if (adapter2.getData().size() == 0) {
+                                nodata.setVisibility(View.VISIBLE);
+
+                            }
+
+                        } else {
+                        }
+                    }
+                }else {
+
+                }
+            }
+        });
+    }
+    //点巡检工单
+    private void query3() {
+        String url = Constants.BASE_URL + Constants.GET_ASSERT_WORKORDERS;
+        HashMap<String, String> map = new HashMap<>();
+        map.put("pageNum", currentPageNum + "");
+        map.put("pageSize", 5 + "");
+        map.put("assetNum", mListBean.getAssetNum());
+        map.put("worktype", 3 + "");
+        HashMap<String, String> headermap = new HashMap<>();
+        headermap.put("authorization", SharedPreferencesUtil.getString(mContext, "authorization"));
+        headermap.put("Content-Type", "application/json");
+        OkhttpUtil.okHttpGet(url, headermap, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+                LogUtils.d("onFailure==" + e.toString());
+                ld.close();
+                finishRefresh();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                LogUtils.d("onResponse==" + response);
+                ld.close();
+                finishRefresh();
+                if (!response.isEmpty()) {
+                    final EqumetMatainWorkOrderListBean equmetMatainWorkOrderListBean = JSONObject.parseObject(response, new TypeReference<EqumetMatainWorkOrderListBean>() {});
+                    if (equmetMatainWorkOrderListBean.getCode() == 200) {
+                        List<EqumetMatainWorkOrderListBean.DataBean.ListBean> list = equmetMatainWorkOrderListBean.getData().getList();
+                        LogUtils.d("222222 list.size()=" + list.size());
+                        int totalpage = equmetMatainWorkOrderListBean.getData().getPages();
+                        if (list.size() > 0) {
+                            nodata.setVisibility(View.GONE);
+
+                            if (currentPageNum == 1) {
+                                if (adapter3 == null) {
+                                    adapter3 = new CommonAdapter<EqumetMatainWorkOrderListBean.DataBean.ListBean>(mContext, R.layout.common_workorder_item, list) {
+                                        @Override
+                                        public void convert(CommonViewHolder holder, final EqumetMatainWorkOrderListBean.DataBean.ListBean listBean) {
+                                            TextView tv_no = holder.getView(R.id.tv_no);
+                                            TextView tv_order_no = holder.getView(R.id.tv_order_no);
+                                            TextView tv_desc1 = holder.getView(R.id.tv_desc1);
+                                            TextView tv_desc = holder.getView(R.id.tv_desc);
+                                            TextView tv_lasttime = holder.getView(R.id.tv_lasttime);
+                                            TextView tv_nexttime = holder.getView(R.id.tv_nexttime);
+                                            TextView tv_unit = holder.getView(R.id.tv_unit);
+                                            TextView tv_frequency = holder.getView(R.id.tv_frequency);
+
+                                            tv_no.setText("行编号：" + listBean.getWorkOrderId());
+                                            tv_order_no.setText("工单编号：" + listBean.getWoNum());
+                                            tv_desc.setText(listBean.getDescription());
+                                            tv_lasttime.setText("工单开始时间：" + listBean.getActualStartTime());
+                                            tv_nexttime.setText("工单完成时间：" + listBean.getActualFinishTime());
+                                            tv_unit.setText("工单类型：" + listBean.getSpotCheckType());
+                                            tv_frequency.setVisibility(View.GONE);
+
+                                            holder.setTextSize(R.id.tv_no);
+                                            holder.setTextSize(R.id.tv_order_no);
+                                            holder.setTextSize(R.id.tv_desc);
+                                            holder.setTextSize(R.id.tv_desc1);
+                                            holder.setTextSize(R.id.tv_lasttime);
+                                            holder.setTextSize(R.id.tv_nexttime);
+                                            holder.setTextSize(R.id.tv_unit);
+                                            holder.setTextSize(R.id.tv_frequency);
+                                        }
+
+                                    };
+                                    recyclerView.setAdapter(adapter3);
+
+                                } else {
+                                    adapter3.setData(list);
+                                    adapter3.notifyDataSetChanged();
+                                }
+                            } else {
+                                //不是第一页
+                                if (currentPageNum <= totalpage) {
+                                    adapter3.addAllList(list);
+                                    adapter3.notifyDataSetChanged();
+                                } else {
+                                    ToastUtils.showShort("没有更多数据了");
+                                }
+                            }
+                            if (adapter3.getData().size() == 0) {
+                                nodata.setVisibility(View.VISIBLE);
+
+                            }
+
+                        } else {
+                        }
+                    }
+                }else {
+
+                }
+            }
+        });
     }
 
     private void finishRefresh() {

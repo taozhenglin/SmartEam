@@ -34,11 +34,13 @@ import com.alibaba.fastjson.TypeReference;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cn.smarteam.R;
 import com.cn.smarteam.activity.ChangePwdActivity;
+import com.cn.smarteam.activity.DianXunJianGongdanDetailActivity;
 import com.cn.smarteam.activity.LoginActivity;
 import com.cn.smarteam.adapter.CommonAdapter;
 import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.base.Constants;
 import com.cn.smarteam.bean.ChangePwdBean;
+import com.cn.smarteam.bean.PostData;
 import com.cn.smarteam.bean.WaitDoListBean;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
@@ -51,6 +53,10 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +90,7 @@ public class WaitDoFragment extends Fragment implements View.OnClickListener {
 
     public WaitDoFragment(Context context) {
         mContext = context;
+        EventBus.getDefault().register(this);
     }
 
     @SuppressLint("RestrictedApi")
@@ -184,7 +191,9 @@ public class WaitDoFragment extends Fragment implements View.OnClickListener {
                         List<WaitDoListBean.DataBean.ListBean> list = waitDoListBean.getData().getList();
                         LogUtils.d("222222 list.size()="+list.size());
                         int totalpage=waitDoListBean.getData().getPages();
-                        if (list.size() > 0) {
+                        int total=waitDoListBean.getData().getTotal();
+
+                        if (total > 0) {
                             nodata.setVisibility(View.GONE);
                             for (int i = 0; i < list.size(); i++) {
                                 list.get(i).setChecked(false);
@@ -248,7 +257,7 @@ public class WaitDoFragment extends Fragment implements View.OnClickListener {
 
                                                             break;
                                                         case 3://点巡检工单
-
+                                                                startActivity(new Intent(mContext, DianXunJianGongdanDetailActivity.class).putExtra("listBean",listBean));
                                                             break;
                                                     }
                                                 }
@@ -277,13 +286,14 @@ public class WaitDoFragment extends Fragment implements View.OnClickListener {
                                     ToastUtils.showShort("没有更多数据了");
                                 }
                             }
-                            if (adapter.getData().size()==0){
-                                nodata.setVisibility(View.VISIBLE);
 
-                            }
 
                         } else {
+                                nodata.setVisibility(View.VISIBLE);
                         }
+                    }else {
+                        ToastUtils.showShort(waitDoListBean.getMsg());
+
                     }
                 }
             }
@@ -432,5 +442,16 @@ public class WaitDoFragment extends Fragment implements View.OnClickListener {
                 .getAttributes();
         lp.alpha = v;
         ((Activity) mContext).getWindow().setAttributes(lp);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getNotify(PostData postData) {
+        if (postData.getTag().equals("query")) {
+            query();
+        }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

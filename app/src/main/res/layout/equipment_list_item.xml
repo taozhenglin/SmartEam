@@ -4,153 +4,145 @@
     android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:layout_marginBottom="@dimen/dp5"
     android:translationZ="5dp"
     app:cardCornerRadius="8dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_radis_8_white"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/dp5"
 
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:checked="false"
-            android:visibility="gone">
+        >
+        <TextView
+            android:id="@+id/tv_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text=""
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            android:layout_toRightOf="@+id/tv_empty"
 
-        </CheckBox>
+            />
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="设备编号："
+            android:textColor="@color/textColor"
+            android:textSize="14sp"
+            />
 
+        <TextView
+            android:id="@+id/tv_statue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="状态"
+            android:textColor="@color/orange"
+            android:textSize="14sp"
+            android:layout_marginRight="@dimen/dp5"
+            />
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_no"
+            android:layout_margin="2dp"
+            android:text="工单描述"
+            android:textColor="@color/textColor"
+            android:textSize="14sp" />
 
-        <RelativeLayout
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="类型"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                android:layout_below="@+id/tv_desc"
+
+                />
+
+        <TextView
+            android:id="@+id/tv_own_company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp5"
+            android:layout_margin="2dp"
+            android:text="所属"
+            android:textColor="@color/textColor"
+            android:textSize="14sp"
+            android:layout_below="@+id/tv_type"
+
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_own_company"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
 
             >
-            <TextView
-                android:id="@+id/tv_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:text=""
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:layout_toRightOf="@+id/tv_empty"
 
-                />
-            <TextView
-                android:id="@+id/tv_empty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:text="设备编号："
-                android:textColor="@color/textColor"
-                android:textSize="14sp"
-                />
+            <ImageView
+                android:layout_width="@dimen/dp15"
+                android:layout_height="@dimen/dp15"
 
-            <TextView
-                android:id="@+id/tv_statue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="状态"
-                android:textColor="@color/orange"
-                android:textSize="14sp"
-                android:layout_marginRight="@dimen/dp5"
-                />
-
-            <LinearLayout
-                android:id="@+id/ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@+id/tv_no"
-
-                >
-                <TextView
-                    android:id="@+id/tv_type"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:text="类型"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp" />
-                <TextView
-                    android:id="@+id/tv_own_company"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_no"
-                    android:layout_margin="2dp"
-                    android:text="所属公司"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ll"
-                android:layout_margin="2dp"
-                android:text="工单描述"
-                android:textColor="@color/textColor"
-                android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_desc"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:src="@drawable/name" />
 
-                <ImageView
-                    android:layout_width="@dimen/dp15"
-                    android:layout_height="@dimen/dp15"
-                    android:layout_below="@+id/tv_desc"
-                    android:src="@drawable/name" />
+            <TextView
+                android:id="@+id/tv_dute"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:paddingRight="10dp"
+                android:text="责任人"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
 
-                <TextView
-                    android:id="@+id/tv_dute"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:paddingRight="10dp"
-                    android:text="责任人"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp"
+                />
 
-                    />
 
-                <ImageView
-                    android:layout_width="@dimen/dp15"
-                    android:layout_height="@dimen/dp15"
-                    android:layout_below="@+id/tv_desc"
-                    android:src="@drawable/clock"
-                    />
 
-                <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/dp5"
-                    android:text="时间"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp"
-                    />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/ll1"
+            android:gravity="center_vertical"
 
-            </LinearLayout>
+            >
+            <ImageView
+                android:layout_width="@dimen/dp15"
+                android:layout_height="@dimen/dp15"
+                android:layout_below="@+id/tv_desc"
+                android:src="@drawable/clock"
+                />
 
-        </RelativeLayout>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/dp5"
+                android:text="时间"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

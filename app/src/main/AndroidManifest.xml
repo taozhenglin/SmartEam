@@ -58,9 +58,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon"
         android:usesCleartextTraffic="true"
-        >
+        tools:replace="android:icon">
         <activity
             android:name="com.cn.smarteam.activity.MainActivity"
             android:label="@string/app_name">
@@ -71,17 +70,53 @@
             </intent-filter>
         </activity>
         <activity android:name="com.cn.smarteam.activity.BActivity"></activity>
-        <activity android:name="com.cn.smarteam.activity.BaseListActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            />
-        <activity android:name="com.cn.smarteam.activity.OrderListActivity"/>
-        <activity android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            />
+        <activity
+            android:name="com.cn.smarteam.activity.BaseListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name="com.cn.smarteam.activity.OrderListActivity" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.ChangePwdActivity"></activity>
-        <activity android:name=".activity.EqumentAccountListActivity"
-            />
-        <activity android:name=".activity.EquimentDetailActivity"/>
+        <activity
+            android:name=".activity.EqumentAccountListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".activity.EquimentDetailActivity" />
+        <activity android:name=".activity.DianXunJianGongdanDetailActivity" />
+        <activity android:name=".activity.EqumentWorderOrderDetailActivity" />
+
+        <!--        运维管理之保养计划列表-->
+        <activity
+            android:name=".activity.MainTainPlanListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <!--        运维管理之点巡检工单列表-->
+        <activity
+            android:name=".activity.DxjWorkerOrderListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <!--        运维管理之维修工单列表-->
+        <activity
+            android:name=".activity.RepairWorkerOrderListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <!--        运维管理之保养工单列表-->
+        <activity
+            android:name=".activity.MainTainWorkerOrderListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <!--        运维管理之保养工单列表-->
+        <activity
+            android:name=".activity.QuickReportListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity android:name=".activity.MainTainWorkOrderDetailActivity"/>
+
+<!--        保养工单详情-零配件使用-->
+        <activity android:name=".activity.MaterialUsedListActivity"/>
+
+<!--        快速汇报详情-->
+        <activity android:name=".activity.QuickReportDetailActivity"/>
 
     </application>
 

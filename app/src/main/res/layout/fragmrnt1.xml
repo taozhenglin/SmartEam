@@ -4,35 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/wathet"
     android:orientation="vertical"
+
 
     >
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_equment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/bg"
         android:padding="5dp"
         android:translationZ="5dp"
         app:cardCornerRadius="8dp"
-        android:id="@+id/card_equment"
+        android:background="@drawable/buttom_press_bg"
+
+
 
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@drawable/personal_home_page_bg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:id="@+id/ll_equment"
+            android:background="@drawable/buttom_press_bg"
+
+            >
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/menu" />
+                android:src="@drawable/equment" />
 
 
             <TextView
@@ -62,8 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/dp10"
-            >
+            android:padding="@dimen/dp10">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,10 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/dp10"
-                android:layout_marginTop="@dimen/dp10"
-                android:layout_marginBottom="@dimen/dp10"
-                >
+                android:padding="@dimen/dp10">
 
                 <TextView
                     android:id="@+id/tv_trouble"
@@ -98,9 +101,11 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/trouble_list"
-                    android:text="故障知识库"
                     android:gravity="center_vertical"
-                    android:textSize="16sp" />
+                    android:text="故障知识库"
+                    android:textSize="16sp"
+                    android:background="@drawable/buttom_press_bg"
+                    />
 
                 <TextView
                     android:id="@+id/tv_zuoye"
@@ -110,10 +115,239 @@
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/zuoye"
                     android:gravity="center_vertical"
+                    android:background="@drawable/buttom_press_bg"
 
                     android:text="标准作业"
                     android:textSize="16sp" />
             </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="@dimen/dp5"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"
+        android:translationZ="5dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp5"
+                android:drawableLeft="@drawable/pro_manage"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp5"
+                android:text="运维管理"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginRight="@dimen/dp10"
+                android:background="@color/colorAccent" />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginBottom="@dimen/dp10"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp10">
+
+                <TextView
+                    android:id="@+id/tv_maintain_plan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/maintain"
+                    android:gravity="center_vertical"
+                    android:text="保养计划"
+                    android:background="@drawable/buttom_press_bg"
+
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_check_order"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/taizhang"
+                    android:gravity="center_vertical"
+                    android:text="点巡检工单"
+                    android:background="@drawable/buttom_press_bg"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp10"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp10">
+
+                <TextView
+                    android:id="@+id/tv_repair_order"
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/toubiao"
+                    android:gravity="center_vertical"
+                    android:text="维修工单"
+                    android:background="@drawable/buttom_press_bg"
+
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_maintain_order"
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/contract"
+                    android:gravity="center_vertical"
+                    android:text="保养工单"
+                    android:background="@drawable/buttom_press_bg"
+
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp10"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp10">
+
+                <TextView
+                    android:id="@+id/tv_quickly_report"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/report"
+                    android:gravity="center_vertical"
+                    android:text="快速汇报"
+                    android:background="@drawable/buttom_press_bg"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"
+        android:translationZ="5dp"
+        android:visibility="gone"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp5"
+                android:drawableLeft="@drawable/pro_manage"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp5"
+
+                android:text="项目管理"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginRight="@dimen/dp10"
+                android:background="@color/colorAccent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginBottom="@dimen/dp10"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/shenbao"
+                    android:gravity="center_vertical"
+                    android:text="项目申报"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/taizhang"
+                    android:gravity="center_vertical"
+                    android:text="项目台账"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginBottom="@dimen/dp10"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/toubiao"
+                    android:gravity="center_vertical"
+                    android:text="招投标管理"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/contract"
+                    android:gravity="center_vertical"
+                    android:text="合同管理"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

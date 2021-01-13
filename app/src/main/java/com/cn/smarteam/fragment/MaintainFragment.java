@@ -28,6 +28,7 @@ import com.cn.smarteam.R;
 import com.cn.smarteam.adapter.CommonAdapter;
 import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.base.Constants;
+import com.cn.smarteam.bean.PostData;
 import com.cn.smarteam.bean.WaitDoListBean;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
@@ -40,6 +41,10 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,6 +77,7 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
     private LoadingDialog ld;
     public MaintainFragment(Context context) {
         mContext=context;
+        EventBus.getDefault().register(this);
     }
 
     @SuppressLint("RestrictedApi")
@@ -165,7 +171,9 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
                         List<WaitDoListBean.DataBean.ListBean> list = waitDoListBean.getData().getList();
                         LogUtils.d("222222 list.size()="+list.size());
                         int totalpage=waitDoListBean.getData().getPages();
-                        if (list.size() > 0) {
+                        int total=waitDoListBean.getData().getTotal();
+
+                        if (total > 0) {
                             nodata.setVisibility(View.GONE);
                             for (int i = 0; i < list.size(); i++) {
                                 list.get(i).setChecked(false);
@@ -243,13 +251,11 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
                                     ToastUtils.showShort("没有更多数据了");
                                 }
                             }
-                            if (adapter.getData().size()==0){
-                                nodata.setVisibility(View.VISIBLE);
-
-                            }
-
                         } else {
+                                nodata.setVisibility(View.VISIBLE);
                         }
+                    }else {
+                        ToastUtils.showShort(waitDoListBean.getMsg());
                     }
                 }
             }
@@ -348,5 +354,16 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
     private void finishRefresh() {
         if (isRefresh) refreshLayout.finishRefresh();
         else refreshLayout.finishLoadMore();
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getNotify(PostData postData) {
+        if (postData.getTag().equals("query")) {
+            query();
+        }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
