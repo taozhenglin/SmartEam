@@ -17,10 +17,12 @@ import androidx.fragment.app.Fragment;
 import com.cn.smarteam.R;
 import com.cn.smarteam.activity.DxjWorkerOrderListActivity;
 import com.cn.smarteam.activity.EqumentAccountListActivity;
+import com.cn.smarteam.activity.FaultListActivity;
 import com.cn.smarteam.activity.MainTainPlanListActivity;
 import com.cn.smarteam.activity.MainTainWorkerOrderListActivity;
 import com.cn.smarteam.activity.QuickReportListActivity;
 import com.cn.smarteam.activity.RepairWorkerOrderListActivity;
+import com.cn.smarteam.activity.StartandWorkListActivity;
 
 /**
  * Created by tzl
@@ -55,6 +57,7 @@ public class FunctionFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         ll_equment.setOnClickListener(this);
         tv_trouble.setOnClickListener(this);
+        tv_zuoye.setOnClickListener(this);
         tv_maintain_plan.setOnClickListener(this);
         tv_check_order.setOnClickListener(this);
         tv_repair_order.setOnClickListener(this);
@@ -69,8 +72,10 @@ public class FunctionFragment extends Fragment implements View.OnClickListener {
                 mContext.startActivity(new Intent(mContext, EqumentAccountListActivity.class));//设备台账
                 break;
             case R.id.tv_trouble:
+                mContext.startActivity(new Intent(mContext, FaultListActivity.class));//故障知识库
                 break;
             case R.id.tv_zuoye:
+                mContext.startActivity(new Intent(mContext, StartandWorkListActivity.class));//标准作业
                 break;
             case R.id.tv_maintain_plan:
                 mContext.startActivity(new Intent(mContext, MainTainPlanListActivity.class));//保养计划
@@ -87,6 +92,7 @@ public class FunctionFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_quickly_report:
                 mContext.startActivity(new Intent(mContext, QuickReportListActivity.class));//快速汇报
                 break;
+
         }
     }
 }

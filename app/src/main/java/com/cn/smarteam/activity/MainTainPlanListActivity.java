@@ -145,10 +145,10 @@ public class MainTainPlanListActivity extends BaseListActivity{
                                             TextView tv_desc = holder.getView(R.id.tv_desc);
                                             TextView tv_dute = holder.getView(R.id.tv_dute);
                                             TextView tv_date = holder.getView(R.id.tv_date);
-                                            tv_empty.setText("保养计划编号：");
-                                            tv_no.setText(listBean.getPmNum());
-                                            SpannableString highlight = HighLightUtils.highlight(MyApplication.applicationContext, "保养计划描述：" + listBean.getDescription(), edt_search2.getText().toString(), "#03DAC5", 0, 0);
-                                            tv_desc.setText(highlight);
+                                            SpannableString highlightNo = HighLightUtils.highlight(MyApplication.applicationContext, "保养计划编号：" + listBean.getPmNum(), listBean.getPmNum(), "#03DAC5", 0, 0);
+                                            tv_no.setText(highlightNo);
+                                            SpannableString highlightDesc = HighLightUtils.highlight(MyApplication.applicationContext, "保养计划描述：" + listBean.getDescription(), edt_search2.getText().toString(), "#03DAC5", 0, 0);
+                                            tv_desc.setText(highlightDesc);
                                             tv_statue.setVisibility(View.GONE);
 //                                            if (listBean.getStatus() == 4) {//已完工
 //                                                tv_statue.setTextColor(getResources().getColor(R.color.grenn));

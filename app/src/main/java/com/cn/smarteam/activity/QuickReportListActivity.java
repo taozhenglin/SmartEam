@@ -19,6 +19,7 @@ import com.cn.smarteam.base.Constants;
 import com.cn.smarteam.base.MyApplication;
 import com.cn.smarteam.bean.DxjWorkOrderListBean;
 import com.cn.smarteam.bean.MainTainPlanListBean;
+import com.cn.smarteam.bean.PostData;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
 import com.cn.smarteam.utils.HighLightUtils;
@@ -28,6 +29,10 @@ import com.guideelectric.loadingdialog.view.LoadingDialog;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +50,7 @@ public class QuickReportListActivity extends BaseListActivity{
     private LoadingDialog ld;
     @Override
     public void initView() {
+        EventBus.getDefault().register(this);
         tv_common_title.setText("快速汇报");
         edt_search1.setHint("工单编号");
         edt_search2.setHint("工单描述");
@@ -142,10 +148,11 @@ public class QuickReportListActivity extends BaseListActivity{
                                             TextView tv_desc = holder.getView(R.id.tv_desc);
                                             TextView tv_dute = holder.getView(R.id.tv_dute);
                                             TextView tv_date = holder.getView(R.id.tv_date);
-                                            tv_empty.setText("工单编号：");
-                                            tv_no.setText(listBean.getWoNum());
-                                            SpannableString highlight = HighLightUtils.highlight(MyApplication.applicationContext, "工单描述：" + listBean.getDescription(), edt_search2.getText().toString(), "#03DAC5", 0, 0);
-                                            tv_desc.setText(highlight);
+                                            SpannableString highlightNo = HighLightUtils.highlight(MyApplication.applicationContext, "工单编号：" + listBean.getWoNum(), listBean.getWoNum(), "#03DAC5", 0, 0);
+//                                            tv_empty.setText("工单编号：");
+                                            tv_no.setText(highlightNo);
+                                            SpannableString highlightDesc = HighLightUtils.highlight(MyApplication.applicationContext, "工单描述：" + listBean.getDescription(), edt_search2.getText().toString(), "#03DAC5", 0, 0);
+                                            tv_desc.setText(highlightDesc);
                                             tv_statue.setText(listBean.getStatusValue());
                                             if (listBean.getStatus() == 4) {//已完工
                                                 tv_statue.setTextColor(getResources().getColor(R.color.grenn));
@@ -236,5 +243,17 @@ public class QuickReportListActivity extends BaseListActivity{
 
         }
 
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getNotify(PostData postData) {
+        if (postData.getTag().equals("快速汇报详情")) {
+            currentPageNum=1;
+            query(0);
+        }
     }
 }

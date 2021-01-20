@@ -2,7 +2,9 @@ package com.cn.smarteam.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,13 +28,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cn.smarteam.R;
+import com.cn.smarteam.activity.MainTainWorkOrderDetailActivity;
 import com.cn.smarteam.adapter.CommonAdapter;
 import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.base.Constants;
+import com.cn.smarteam.base.MyApplication;
+import com.cn.smarteam.bean.DxjWorkOrderListBean;
 import com.cn.smarteam.bean.PostData;
 import com.cn.smarteam.bean.WaitDoListBean;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
+import com.cn.smarteam.utils.HighLightUtils;
 import com.cn.smarteam.utils.LogUtils;
 import com.cn.smarteam.utils.NetWorkUtil;
 import com.cn.smarteam.utils.SharedPreferencesUtil;
@@ -55,7 +62,7 @@ import okhttp3.Call;
 
 /**
  * Created by tzl
- * on 2020/12/29
+ * on 2020/12/29 保养工单
  */
 public class MaintainFragment extends Fragment implements View.OnClickListener {
     private final Context mContext;
@@ -166,23 +173,24 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
                 ld.close();
                 finishRefresh();
                 if (!response.isEmpty()) {
-                    final WaitDoListBean waitDoListBean = JSONObject.parseObject(response, new TypeReference<WaitDoListBean>() {});
+                    final DxjWorkOrderListBean waitDoListBean = JSONObject.parseObject(response, new TypeReference<DxjWorkOrderListBean>() {});
                     if (waitDoListBean.getCode() == 200) {
-                        List<WaitDoListBean.DataBean.ListBean> list = waitDoListBean.getData().getList();
+                        List<DxjWorkOrderListBean.DataBean.ListBean> list = waitDoListBean.getData().getList();
                         LogUtils.d("222222 list.size()="+list.size());
                         int totalpage=waitDoListBean.getData().getPages();
                         int total=waitDoListBean.getData().getTotal();
 
                         if (total > 0) {
                             nodata.setVisibility(View.GONE);
-                            for (int i = 0; i < list.size(); i++) {
-                                list.get(i).setChecked(false);
-                            }
+//                            for (int i = 0; i < list.size(); i++) {
+//                                list.get(i).setChecked(false);
+//                            }
                             if (currentPageNum == 1) {
                                 if (adapter == null) {
-                                    adapter = new CommonAdapter<WaitDoListBean.DataBean.ListBean>(mContext, R.layout.waitdo_list_item, list) {
+                                    adapter = new CommonAdapter<DxjWorkOrderListBean.DataBean.ListBean>(mContext, R.layout.waitdo_list_item, list) {
                                         @Override
-                                        public void convert(CommonViewHolder holder, final WaitDoListBean.DataBean.ListBean listBean) {
+                                        public void convert(CommonViewHolder holder, final DxjWorkOrderListBean.DataBean.ListBean listBean) {
+                                            CardView cardview = holder.getView(R.id.cardview);
                                             CheckBox checkbox = holder.getView(R.id.checkbox);
                                             TextView tv_no = holder.getView(R.id.tv_no);
                                             TextView tv_statue = holder.getView(R.id.tv_statue);
@@ -191,7 +199,8 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
                                             TextView tv_date = holder.getView(R.id.tv_date);
                                             TextView tv_dute = holder.getView(R.id.tv_dute);
 
-                                            tv_no.setText("工单编号：" + listBean.getWoNum());
+                                            SpannableString highlightNo = HighLightUtils.highlight(MyApplication.applicationContext, "工单编号：" + listBean.getWoNum(), listBean.getWoNum(), "#03DAC5", 0, 0);
+                                            tv_no.setText(highlightNo);
                                             tv_statue.setText(listBean.getStatusValue());
                                             if (listBean.getStatus() == 4) {//已完工
                                                 tv_statue.setTextColor(getResources().getColor(R.color.grenn));
@@ -204,12 +213,9 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
                                             } else {
 
                                             }
-
                                             tv_type.setText("工单类型：" + listBean.getWorkTypeValue());
                                             tv_desc.setText("工单描述：" + listBean.getDescription());
                                             tv_dute.setText("负责人：" + listBean.getPersonName());
-
-
                                             if (mFlag) {
                                                 checkbox.setVisibility(View.VISIBLE);
                                             } else {
@@ -226,6 +232,14 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
                                                         listBean.setChecked(true);
                                                 }
                                             });
+                                            holder.setOnClickListener(R.id.cardview, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    startActivity(new Intent(mContext, MainTainWorkOrderDetailActivity.class).putExtra("data",listBean));
+
+                                                }
+                                            });
+
 
                                             holder.setTextSize(R.id.tv_no);
                                             holder.setTextSize(R.id.tv_statue);
@@ -237,7 +251,6 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
 
                                     };
                                     recyclerView.setAdapter(adapter);
-
                                 } else {
                                     adapter.setData(list);
                                     adapter.notifyDataSetChanged();
@@ -280,7 +293,7 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_select_all:
                 if (adapter.mFlag) {
                     for (int i = 0; i < adapter.getData().size(); i++) {
-                        WaitDoListBean.DataBean.ListBean listBean = (WaitDoListBean.DataBean.ListBean) adapter.getData().get(i);
+                        DxjWorkOrderListBean.DataBean.ListBean listBean = (DxjWorkOrderListBean.DataBean.ListBean) adapter.getData().get(i);
                         listBean.setChecked(true);
                     }
                 }
@@ -289,7 +302,7 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_unselect_all:
                 if (adapter.mFlag) {
                     for (int i = 0; i < adapter.getData().size(); i++) {
-                        WaitDoListBean.DataBean.ListBean listBean = (WaitDoListBean.DataBean.ListBean) adapter.getData().get(i);
+                        DxjWorkOrderListBean.DataBean.ListBean listBean = (DxjWorkOrderListBean.DataBean.ListBean) adapter.getData().get(i);
                         listBean.setChecked(false);
                     }
                 }
@@ -302,10 +315,10 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
                 List<String> ids = new ArrayList<>();
                 if (adapter.mFlag) {
                     for (int i = 0; i < adapter.getData().size(); i++) {
-                        WaitDoListBean.DataBean.ListBean listBean = (WaitDoListBean.DataBean.ListBean) adapter.getData().get(i);
+                        DxjWorkOrderListBean.DataBean.ListBean listBean = (DxjWorkOrderListBean.DataBean.ListBean) adapter.getData().get(i);
 
                         if (listBean.isChecked()) {
-//                            ids.add(listBean.getDesc() + "");
+                            ids.add(listBean.getWoNum()+ "");
                         }
                     }
                     LogUtils.d("222222    " + ids.size());

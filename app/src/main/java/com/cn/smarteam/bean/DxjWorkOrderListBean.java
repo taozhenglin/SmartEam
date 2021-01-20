@@ -392,6 +392,7 @@ public class DxjWorkOrderListBean {
             private String buttonValue;
             private Object woText;
             private Object quick;
+            private boolean isChecked;
 
             public int getWorkOrderId() {
                 return workOrderId;
@@ -951,6 +952,14 @@ public class DxjWorkOrderListBean {
 
             public void setQuick(Object quick) {
                 this.quick = quick;
+            }
+
+            public boolean isChecked() {
+                return isChecked;
+            }
+
+            public void setChecked(boolean b) {
+                isChecked=b;
             }
         }
     }

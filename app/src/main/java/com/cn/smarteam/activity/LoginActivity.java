@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cn.smarteam.R;
 import com.cn.smarteam.base.Constants;
@@ -37,6 +38,7 @@ import com.cn.smarteam.base.MyApplication;
 import com.cn.smarteam.bean.LoginBean;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
+import com.cn.smarteam.utils.DateUtils;
 import com.cn.smarteam.utils.LogUtils;
 import com.cn.smarteam.utils.SharedPreferencesUtil;
 import com.cn.smarteam.utils.StatusBarUtils;
@@ -178,7 +180,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         map.put("imei", "android");
         String url = Constants.BASE_URL + Constants.LOGIN;
         HashMap<String, String> headermap = new HashMap<>();
-        headermap.put("Content-Type", "text/plan;charset=UTF-8");
+        headermap.put("Content-Type", "application/json;charset=UTF-8");
         OkhttpUtil.okHttpPost(url, map, headermap, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
@@ -198,9 +200,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             SharedPreferencesUtil.setString(LoginActivity.this, "pwd", pwd);
                             SharedPreferencesUtil.setString(LoginActivity.this, "userId", loginBean.getData().getUserId());
                             SharedPreferencesUtil.setString(LoginActivity.this, "userNum", loginBean.getData().getUserNum());
+                            SharedPreferencesUtil.setString(LoginActivity.this, "personNum", loginBean.getData().getPersonNum());
+                            SharedPreferencesUtil.setString(LoginActivity.this, "phoneNum", loginBean.getData().getPhoneNum());
                             SharedPreferencesUtil.setString(LoginActivity.this, "authorization", loginBean.getData().getAuthorization());
+                          SharedPreferencesUtil.setString(LoginActivity.this,"logintime",  DateUtils.getStringDate());
                             ToastUtils.showShort("登录成功");
                             startActivity(new Intent(MyApplication.applicationContext,MainActivity.class));
+
                             finish();
                         } else {
                             ToastUtils.showShort(loginBean.getMsg());

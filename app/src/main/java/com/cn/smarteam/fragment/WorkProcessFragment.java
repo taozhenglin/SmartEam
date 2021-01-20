@@ -104,6 +104,7 @@ public class WorkProcessFragment extends Fragment {
     }
 
     private void query() {
+        ld.show();
         String url = Constants.BASE_URL + Constants.GET_WORK_PROCESS;
         HashMap<String, String> map = new HashMap<>();
         map.put("pageNum", currentPageNum + "");

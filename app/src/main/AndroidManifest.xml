@@ -72,7 +72,9 @@
         <activity android:name="com.cn.smarteam.activity.BActivity"></activity>
         <activity
             android:name="com.cn.smarteam.activity.BaseListActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+
+            />
         <activity android:name="com.cn.smarteam.activity.OrderListActivity" />
         <activity
             android:name=".activity.LoginActivity"
@@ -117,6 +119,17 @@
 
 <!--        快速汇报详情-->
         <activity android:name=".activity.QuickReportDetailActivity"/>
+<!--        故障知识库列表-->
+        <activity android:name=".activity.FaultListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <!--        故障知识库详情-->
+        <activity android:name=".activity.FaultDetailActivity"/>
+        <!--        标准作业列表-->
+        <activity android:name=".activity.StartandWorkListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+<!--        标准作业详情-->
+        <activity android:name=".activity.StartandWorkDetailActivity"/>
 
     </application>
 

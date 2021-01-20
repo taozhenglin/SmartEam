@@ -106,6 +106,7 @@ public class MaterialUsedFragment extends Fragment {
 
 
     private void query() {
+        ld.show();
         String url = Constants.BASE_URL + Constants.GET_WAITDO_MATERIAL_LIST;
         HashMap<String, String> map = new HashMap<>();
         map.put("pageNum", currentPageNum + "");

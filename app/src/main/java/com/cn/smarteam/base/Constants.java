@@ -2,7 +2,7 @@ package com.cn.smarteam.base;
 
 public class Constants {
     public static final String SHARE_PREFERENCES_NAME = "SmartEam";
-    public static final String FONT_SIZE = "fontsize";
+    public static final String FONT_SIZE ="fontsize";
 
 
     public static boolean DeBug = true;
@@ -22,6 +22,18 @@ public class Constants {
     public static String DXJ_SEARCH_WORKORDER_LIST="/workOrder/selectWorkorderQueryList";//运维管理-点巡检工单模糊搜索
     public static String GET_WORK_PROCESS="/workOrder/getWorkOrderTaskList";//保养工单-作业工序
     public static final String GET_WORK_EQUMENT_LIST = "/workOrder/selectWorkOrderAsset";//保养工单-设备
+    public static String PROCESS_REJECT="/workOrder/updateBackStatus";//流程撤回
+    public static final String PROCESS_GO ="/workOrder/updateNextStatus";//流程同意
+    public static String FAULT_LIST="/failure/selectFailureList";//故障知识库
+    public static String FAULT_LIST_SEARCH="/failure/selectFailureQueryList";//故障知识库模糊搜索
+    public static final String GET_FAULT_COUNT ="/failure/getFailureCount";//故障知识库详情故障数
+    public static String GET_FAULT_VISION="/failure/getFailureInfoMerge";//故障知识库详情 故障编码
+
+    public static final String STANDARD_WORK_LIST ="/sop/selectSopQueryList" ;//标准作业列表
+    public static final String GET_JOB_WORK_PROCESS ="/sop/selectJobplanJobtaskList" ;//标准作业 作业工序
+    public static final String GET_JOB_MATERIAL_LIST = "/sop/selectJobplanJobmaterialQueryList";//标准作业 使用零配件
+
+
 
 
 //        public static  String COMMONURL="http://192.168.1.180:7009/maximo/mobile/common/api";
@@ -41,5 +53,7 @@ public class Constants {
     public static final int NETWORN_WIFI = 1;//wifi
     public static final int NETWORN_MODEL = 2;//
 
+
+    public static String IS_AUTHOR="/workOrder/isAuthor";
 
 }

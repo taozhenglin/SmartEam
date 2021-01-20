@@ -144,6 +144,17 @@
                 android:padding="@dimen/dp5"
                 android:text="上次登录时间："
                 android:textSize="@dimen/sp16" />
+            <TextView
+                android:id="@+id/tv_logintime"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp5"
+                android:gravity="right"
+                android:text="id"
+                android:textSize="@dimen/sp16"
+                android:layout_marginRight="@dimen/dp5"
+                />
         </LinearLayout>
 
 
@@ -301,7 +312,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/shape_radis_8"
+        android:background="@drawable/shape_radis_8_accent"
         android:gravity="center"
         android:padding="10dp"
         android:text="退出登录"

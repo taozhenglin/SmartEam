@@ -2,6 +2,7 @@ package com.cn.smarteam.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.cn.smarteam.base.MyApplication;
 import com.cn.smarteam.bean.EquementListBean;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
+import com.cn.smarteam.utils.HighLightUtils;
 import com.cn.smarteam.utils.LogUtils;
 import com.cn.smarteam.utils.SharedPreferencesUtil;
 import com.guideelectric.loadingdialog.view.LoadingDialog;
@@ -180,7 +182,9 @@ public class EqumentAccountListActivity extends BaseListActivity {
                                             TextView tv_dute = holder.getView(R.id.tv_dute);
                                             TextView tv_date = holder.getView(R.id.tv_date);
 
-                                            tv_no.setText(listBean.getAssetNum());
+                                            SpannableString highlight = HighLightUtils.highlight(MyApplication.applicationContext, "设备编号：" + listBean.getAssetNum(), listBean.getAssetNum(), "#03DAC5", 0, 0);
+                                            tv_no.setText(highlight);
+//                                            tv_no.setText(listBean.getAssetNum());
                                             tv_statue.setText(listBean.getStatusValue());
 //                                            if (listBean.getStatus() == 4) {//已完工
 //                                                tv_statue.setTextColor(getResources().getColor(R.color.grenn));
@@ -196,7 +200,8 @@ public class EqumentAccountListActivity extends BaseListActivity {
 
                                             tv_type.setText("设备类型：" + listBean.getAssetTypeValue());
                                             tv_own_company.setText("所属公司：" + listBean.getDeptName());
-                                            tv_desc.setText("描述：" + listBean.getDescription());
+                                            SpannableString highlightDesc = HighLightUtils.highlight(MyApplication.applicationContext, "描述：" + listBean.getDescription(), edt_search2.getText().toString(), "#03DAC5", 0, 0);
+                                            tv_desc.setText(highlightDesc);
                                             tv_dute.setText("操作人：" + listBean.getChangeBy());
                                             tv_date.setText("操作时间：" + listBean.getChangeTime());
 

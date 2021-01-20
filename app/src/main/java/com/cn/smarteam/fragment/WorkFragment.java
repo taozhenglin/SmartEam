@@ -14,10 +14,13 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +40,7 @@ import com.cn.smarteam.adapter.CommonAdapter;
 import com.cn.smarteam.utils.LogUtils;
 import com.cn.smarteam.utils.NetWorkUtil;
 import com.cn.smarteam.utils.Tools;
+import com.cn.smarteam.view.RotateYAnimation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
@@ -79,6 +83,7 @@ public class WorkFragment extends Fragment  {
     private ArrayList<Fragment> fragmentList;
     private ArrayList<String> titles;
     private Fragment currentFragment;
+    RelativeLayout rl_container;
 
     public WorkFragment(Context context) {
         mContext = context;
@@ -89,6 +94,7 @@ public class WorkFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmrnt2, container, false);
+        rl_container= view.findViewById(R.id.rl_container);
         pager = view.findViewById(R.id.pager);
         magicIndicator = view.findViewById(R.id.magicIndicator);
 
@@ -214,6 +220,11 @@ public class WorkFragment extends Fragment  {
                 LogUtils.d("222222", "position=" + position);
 //                magicIndicator.onPageSelected(position);
                 currentFragment = fragmentList.get(position);
+//                RotateAnimation rotateAnimation=new RotateAnimation(mContext,R.anim.rotate_anim);
+//                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.rotate_anim);
+                RotateYAnimation yAnimation=new RotateYAnimation();
+                yAnimation.setRepeatCount(0);
+                pager.startAnimation(yAnimation);
 
             }
 

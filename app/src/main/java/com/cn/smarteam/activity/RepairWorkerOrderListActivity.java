@@ -18,6 +18,7 @@ import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.base.Constants;
 import com.cn.smarteam.base.MyApplication;
 import com.cn.smarteam.bean.DxjWorkOrderListBean;
+import com.cn.smarteam.bean.PostData;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
 import com.cn.smarteam.utils.HighLightUtils;
@@ -28,6 +29,10 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,13 +42,15 @@ import okhttp3.Call;
  * Created by tzl
  * on 2021/1/11
  */
-public class RepairWorkerOrderListActivity extends BaseListActivity{
+public class RepairWorkerOrderListActivity extends BaseListActivity {
     private int currentPageNum = 1;
     private boolean isRefresh;
     private CommonAdapter<DxjWorkOrderListBean.DataBean.ListBean> adapter;
     private LoadingDialog ld;
+
     @Override
     public void initView() {
+        EventBus.getDefault().register(this);
         tv_common_title.setText("维修工单");
         edt_search1.setHint("工单编号");
         edt_search2.setHint("工单描述");
@@ -60,9 +67,9 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
                 //刷新数据
                 isRefresh = true;
                 currentPageNum = 1;
-                if (TextUtils.isEmpty(edt_search1.getText().toString())&&TextUtils.isEmpty(edt_search2.getText().toString())){
+                if (TextUtils.isEmpty(edt_search1.getText().toString()) && TextUtils.isEmpty(edt_search2.getText().toString())) {
                     query(0);
-                }else
+                } else
                     query(3);
 
 
@@ -73,9 +80,9 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 isRefresh = false;
                 currentPageNum++;
-                if (TextUtils.isEmpty(edt_search1.getText().toString())&&TextUtils.isEmpty(edt_search2.getText().toString())){
+                if (TextUtils.isEmpty(edt_search1.getText().toString()) && TextUtils.isEmpty(edt_search2.getText().toString())) {
                     query(0);
-                }else
+                } else
                     query(3);
 
             }
@@ -84,9 +91,9 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
 
     private void query(int searchType) {
         String url;
-        String assetNum=edt_search1.getText().toString();
-        String description=edt_search2.getText().toString();
-        if (searchType==3) {
+        String assetNum = edt_search1.getText().toString();
+        String description = edt_search2.getText().toString();
+        if (searchType == 3) {
             url = Constants.BASE_URL + Constants.DXJ_SEARCH_WORKORDER_LIST;//模糊搜索
         } else {
             url = Constants.BASE_URL + Constants.DXJ_WORKORDER_LIST;//搜索全部
@@ -95,10 +102,10 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
         HashMap<String, String> map = new HashMap<>();
         map.put("pageNum", currentPageNum + "");
         map.put("pageSize", 10 + "");
-        map.put("worktype",2+"");
-        if (searchType==3){
-            map.put("woNum", assetNum );
-            map.put("description", description );
+        map.put("worktype", 2 + "");
+        if (searchType == 3) {
+            map.put("woNum", assetNum);
+            map.put("description", description);
         }
         HashMap<String, String> headermap = new HashMap<>();
         headermap.put("authorization", SharedPreferencesUtil.getString(MyApplication.applicationContext, "authorization"));
@@ -117,9 +124,10 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
                 ld.close();
                 finishRefresh();
                 if (!response.isEmpty()) {
-                    final DxjWorkOrderListBean dxjWorkOrderListBean = JSONObject.parseObject(response, new TypeReference<DxjWorkOrderListBean>() {});
+                    final DxjWorkOrderListBean dxjWorkOrderListBean = JSONObject.parseObject(response, new TypeReference<DxjWorkOrderListBean>() {
+                    });
                     if (dxjWorkOrderListBean.getCode() == 200) {
-                        int total=dxjWorkOrderListBean.getData().getTotal();
+                        int total = dxjWorkOrderListBean.getData().getTotal();
                         int totalpage = dxjWorkOrderListBean.getData().getPages();
                         if (total > 0) {
                             final List<DxjWorkOrderListBean.DataBean.ListBean> list = dxjWorkOrderListBean.getData().getList();
@@ -139,8 +147,8 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
                                             TextView tv_desc = holder.getView(R.id.tv_desc);
                                             TextView tv_dute = holder.getView(R.id.tv_dute);
                                             TextView tv_date = holder.getView(R.id.tv_date);
-                                            tv_empty.setText("工单编号：");
-                                            tv_no.setText(listBean.getWoNum());
+                                            SpannableString highlightNo = HighLightUtils.highlight(MyApplication.applicationContext, "工单编号：" + listBean.getWoNum(), listBean.getWoNum(), "#03DAC5", 0, 0);
+                                            tv_no.setText(highlightNo);
                                             SpannableString highlight = HighLightUtils.highlight(MyApplication.applicationContext, "工单描述：" + listBean.getDescription(), edt_search2.getText().toString(), "#03DAC5", 0, 0);
                                             tv_desc.setText(highlight);
                                             tv_statue.setText(listBean.getStatusValue());
@@ -152,13 +160,13 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
                                                 tv_statue.setTextColor(getResources().getColor(R.color.textColor));
                                             } else if (listBean.getStatus() == 3) {//进行中
                                                 tv_statue.setTextColor(getResources().getColor(R.color.config_color_red));
-                                            } else if (listBean.getStatus() == 5){
+                                            } else if (listBean.getStatus() == 5) {
                                                 tv_statue.setTextColor(getResources().getColor(R.color.gry33));
 
                                             }
 
                                             tv_type.setText("设备名称：" + listBean.getAssetValue());
-                                            tv_own_company.setText("维修类型："+listBean.getRepairTypeValue());
+                                            tv_own_company.setText("维修类型：" + listBean.getRepairTypeValue());
                                             tv_dute.setText("操作人：" + listBean.getChangeBy());
                                             tv_date.setText("操作时间：" + listBean.getChangeTime());
 
@@ -174,7 +182,7 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
                                             holder.setOnClickListener(R.id.cardview, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    startActivity(new Intent(MyApplication.applicationContext,QuickReportDetailActivity.class).putExtra("data",listBean).putExtra("title","维修工单详情"));
+                                                    startActivity(new Intent(MyApplication.applicationContext, QuickReportDetailActivity.class).putExtra("data", listBean).putExtra("title", "维修工单详情"));
                                                 }
                                             });
                                         }
@@ -214,6 +222,7 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
         if (isRefresh) refreshLayout.finishRefresh();
         else refreshLayout.finishLoadMore();
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -221,7 +230,7 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
                 finish();
                 break;
             case R.id.tv_search:
-                currentPageNum=1;
+                currentPageNum = 1;
                 query(3);
                 break;
 //            case R.id.iv_search1:
@@ -233,4 +242,19 @@ public class RepairWorkerOrderListActivity extends BaseListActivity{
 
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getNotify(PostData postData) {
+        if (postData.getTag().equals("维修工单详情")) {
+            currentPageNum = 1;
+            query(0);
+        }
+    }
+
 }

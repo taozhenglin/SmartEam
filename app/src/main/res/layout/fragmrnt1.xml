@@ -17,22 +17,20 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:background="@drawable/buttom_press_bg"
         android:padding="5dp"
         android:translationZ="5dp"
-        app:cardCornerRadius="8dp"
-        android:background="@drawable/buttom_press_bg"
-
-
-
-        >
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
+            android:id="@+id/ll_equment"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:id="@+id/ll_equment"
             android:background="@drawable/buttom_press_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp10"
+
 
             >
 
@@ -59,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:padding="5dp"
         android:translationZ="5dp"
@@ -69,22 +67,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/dp10">
+            android:padding="@dimen/dp10"
+            >
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:drawableLeft="@drawable/exprt"
-                android:gravity="center"
-                android:text="专家类库"
-                android:textSize="20sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/exprt" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="专家类库"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp10"
-                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginTop="@dimen/dp8"
                 android:layout_marginRight="@dimen/dp10"
                 android:background="@color/colorAccent" />
 
@@ -92,7 +102,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/dp10">
+                android:padding="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp5"
+                >
 
                 <TextView
                     android:id="@+id/tv_trouble"
@@ -100,12 +112,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:background="@drawable/buttom_press_bg"
                     android:drawableLeft="@drawable/trouble_list"
                     android:gravity="center_vertical"
                     android:text="故障知识库"
-                    android:textSize="16sp"
-                    android:background="@drawable/buttom_press_bg"
-                    />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_zuoye"
@@ -113,9 +124,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:background="@drawable/buttom_press_bg"
                     android:drawableLeft="@drawable/zuoye"
                     android:gravity="center_vertical"
-                    android:background="@drawable/buttom_press_bg"
 
                     android:text="标准作业"
                     android:textSize="16sp" />
@@ -174,10 +185,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:background="@drawable/buttom_press_bg"
                     android:drawableLeft="@drawable/maintain"
                     android:gravity="center_vertical"
                     android:text="保养计划"
-                    android:background="@drawable/buttom_press_bg"
 
                     android:textSize="16sp" />
 
@@ -187,10 +198,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:background="@drawable/buttom_press_bg"
                     android:drawableLeft="@drawable/taizhang"
                     android:gravity="center_vertical"
                     android:text="点巡检工单"
-                    android:background="@drawable/buttom_press_bg"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -208,10 +219,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:background="@drawable/buttom_press_bg"
                     android:drawableLeft="@drawable/toubiao"
                     android:gravity="center_vertical"
                     android:text="维修工单"
-                    android:background="@drawable/buttom_press_bg"
 
                     android:textSize="16sp" />
 
@@ -222,10 +233,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:background="@drawable/buttom_press_bg"
                     android:drawableLeft="@drawable/contract"
                     android:gravity="center_vertical"
                     android:text="保养工单"
-                    android:background="@drawable/buttom_press_bg"
 
                     android:textSize="16sp" />
             </LinearLayout>
@@ -243,10 +254,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:background="@drawable/buttom_press_bg"
                     android:drawableLeft="@drawable/report"
                     android:gravity="center_vertical"
                     android:text="快速汇报"
-                    android:background="@drawable/buttom_press_bg"
                     android:textSize="16sp" />
             </LinearLayout>
 

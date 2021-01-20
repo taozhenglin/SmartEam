@@ -141,8 +141,8 @@ public class DxjWorkerOrderListActivity extends BaseListActivity {
                                             TextView tv_desc = holder.getView(R.id.tv_desc);
                                             TextView tv_dute = holder.getView(R.id.tv_dute);
                                             TextView tv_date = holder.getView(R.id.tv_date);
-                                            tv_empty.setText("工单编号：");
-                                            tv_no.setText(listBean.getWoNum());
+                                            SpannableString highlightNo = HighLightUtils.highlight(MyApplication.applicationContext, "工单编号：" + listBean.getWoNum(), listBean.getWoNum(), "#03DAC5", 0, 0);
+                                            tv_no.setText(highlightNo);
                                             SpannableString highlight = HighLightUtils.highlight(MyApplication.applicationContext, "工单描述：" + listBean.getDescription(), edt_search2.getText().toString(), "#03DAC5", 0, 0);
                                             tv_desc.setText(highlight);
                                             tv_statue.setText(listBean.getStatusValue());
@@ -176,7 +176,7 @@ public class DxjWorkerOrderListActivity extends BaseListActivity {
                                             holder.setOnClickListener(R.id.cardview, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    startActivity(new Intent(DxjWorkerOrderListActivity.this,MainTainPlanDetailActivity.class).putExtra("data",listBean));
+                                                    startActivity(new Intent(DxjWorkerOrderListActivity.this,QuickReportDetailActivity.class).putExtra("data",listBean).putExtra("title","点巡检工单详情"));
                                                 }
                                             });
                                         }

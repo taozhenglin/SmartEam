@@ -40,11 +40,12 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
     LinearLayout ll_mode;
     LinearLayout ll_pwd;
     private String[] stringItems1 = new String[]{"小", "常规", "大"};
-    private TextView tv_font,tv_name,tv_account,tv_version;
+    private TextView tv_font,tv_name,tv_account,tv_version,tv_logintime;
     private TextView tv_login_out;
     PostData postData;
     public PersonalFragment(Context context) {
         mContext = context;
+
     }
 
     @Nullable
@@ -53,6 +54,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragmrnt3, container, false);
         tv_name = view.findViewById(R.id.tv_name);
         tv_account = view.findViewById(R.id.tv_account);
+        tv_logintime = view.findViewById(R.id.tv_logintime);
         ll_font = view.findViewById(R.id.ll_font);
         ll_mode = view.findViewById(R.id.ll_mode);
         tv_font = view.findViewById(R.id.tv_font);
@@ -72,6 +74,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener {
         tv_name.setText(SharedPreferencesUtil.getString(mContext,"userName"));
         tv_account.setText(SharedPreferencesUtil.getString(mContext,"userId"));
         tv_version.setText(AppUtils.getAppVersionName());
+        tv_logintime.setText(SharedPreferencesUtil.getString(mContext,"logintime"));
         switch ((int) SharedPreferencesUtil.getFloat(mContext, Constants.FONT_SIZE)){
             case 14:
                 tv_font.setText("小");

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:id="@+id/rl_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/waitdo_bg"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/magicIndicator"
@@ -22,8 +21,7 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp40"
-        />
+        android:layout_marginTop="@dimen/dp40" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/flab"
@@ -34,32 +32,31 @@
         android:layout_marginRight="@dimen/dp20"
         android:layout_marginBottom="@dimen/dp20"
         android:backgroundTint="#1296db"
-        app:fabSize="mini"
-        app:rippleColor="#a4d16b"
         android:clickable="true"
-        app:elevation="@dimen/dp5"
-        app:pressedTranslationZ="10dp"
         android:src="@drawable/fun4"
-        app:borderWidth="0dp"
         android:visibility="gone"
+        app:borderWidth="0dp"
+        app:elevation="@dimen/dp5"
+        app:fabSize="mini"
+        app:pressedTranslationZ="10dp"
+        app:rippleColor="#a4d16b"
 
         >
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
-<ImageView
-    android:id="@+id/nodata"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:src="@drawable/nodata2"
-    android:visibility="gone"
-    />
+    <ImageView
+        android:id="@+id/nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/nodata2"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/nonet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/nonet2"
-        android:visibility="gone"
         android:scaleType="centerCrop"
-        />
+        android:src="@drawable/nonet2"
+        android:visibility="gone" />
 </RelativeLayout>
