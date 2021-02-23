@@ -222,9 +222,9 @@ public class WorkFragment extends Fragment  {
                 currentFragment = fragmentList.get(position);
 //                RotateAnimation rotateAnimation=new RotateAnimation(mContext,R.anim.rotate_anim);
 //                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.rotate_anim);
-                RotateYAnimation yAnimation=new RotateYAnimation();
-                yAnimation.setRepeatCount(0);
-                pager.startAnimation(yAnimation);
+//                RotateYAnimation yAnimation=new RotateYAnimation();
+//                yAnimation.setRepeatCount(0);
+//                pager.startAnimation(yAnimation);
 
             }
 

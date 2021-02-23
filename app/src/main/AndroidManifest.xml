@@ -75,7 +75,6 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
 
             />
-        <activity android:name="com.cn.smarteam.activity.OrderListActivity" />
         <activity
             android:name=".activity.LoginActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
@@ -115,7 +114,9 @@
         <activity android:name=".activity.MainTainWorkOrderDetailActivity"/>
 
 <!--        保养工单详情-零配件使用-->
-        <activity android:name=".activity.MaterialUsedListActivity"/>
+        <activity android:name=".activity.MaterialUsedListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            />
 
 <!--        快速汇报详情-->
         <activity android:name=".activity.QuickReportDetailActivity"/>

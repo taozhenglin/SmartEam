@@ -58,8 +58,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="48dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/nonet2"
         android:visibility="gone"
+
         />
 
 </RelativeLayout>

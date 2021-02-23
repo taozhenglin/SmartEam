@@ -14,6 +14,7 @@ import com.cn.smarteam.fragment.FunctionFragment;
 import com.cn.smarteam.fragment.WorkFragment;
 import com.cn.smarteam.fragment.PersonalFragment;
 import com.cn.smarteam.utils.LogUtils;
+import com.cn.smarteam.utils.SharedPreferencesUtil;
 import com.cn.smarteam.utils.StatusBarUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         WorkFragment functionFragment2 = new WorkFragment(this);
         PersonalFragment functionFragment3 = new PersonalFragment(this);
         navigation = findViewById(R.id.nav_view);
-        displayItemNum(navigation, 1, 0);
+        displayItemNum(navigation, 1, SharedPreferencesUtil.getInt(this,"waitdocount"));
         lists.add(functionFragment1);
         lists.add(functionFragment2);
         lists.add(functionFragment3);

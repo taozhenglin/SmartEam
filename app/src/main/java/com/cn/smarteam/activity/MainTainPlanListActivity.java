@@ -181,7 +181,7 @@ public class MainTainPlanListActivity extends BaseListActivity{
                                             holder.setOnClickListener(R.id.cardview, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    startActivity(new Intent(MainTainPlanListActivity.this,MainTainPlanDetailActivity.class).putExtra("data",listBean));
+//                                                    startActivity(new Intent(MainTainPlanListActivity.this,MainTainPlanDetailActivity.class).putExtra("data",listBean));
                                                 }
                                             });
                                         }
@@ -208,7 +208,7 @@ public class MainTainPlanListActivity extends BaseListActivity{
                             }
 
                         } else {
-                            refreshLayout.setVisibility(View.GONE);
+//                            refreshLayout.setVisibility(View.GONE);
                             nodata.setVisibility(View.VISIBLE);
                         }
                     }

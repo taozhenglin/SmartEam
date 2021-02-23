@@ -50,6 +50,7 @@ public class MaterialUsedListActivity extends BaseListActivity {
     @Override
     public void initView() {
         tv_common_title.setText("零配件使用详情");
+        include2.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(getIntent().getStringExtra("assetNum"))){
             assetNum=getIntent().getStringExtra("assetNum");
         }

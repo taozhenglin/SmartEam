@@ -104,6 +104,8 @@ public class MainTainWorkOrderDetailActivity extends AppCompatActivity implement
         ll_back=findViewById(R.id.ll_back);
         ll_right = findViewById(R.id.ll_right);
         ll_right.setVisibility(View.VISIBLE);
+        ll_right.setBackground(getResources().getDrawable(R.drawable.shape_radis_5_grenn));
+
         tv_title = findViewById(R.id.tv_title);
         iv_fun = findViewById(R.id.iv_fun);
         iv_fun.setVisibility(View.VISIBLE);

@@ -90,6 +90,8 @@ dependencies {
     implementation "me.leolin:ShortcutBadger:1.1.22@aar"
 //蒲公英sdk
     implementation 'com.github.Pgyer:analyticssdk:4.0.7'
+    //波浪效果
+    compile 'com.scwang.wave:MultiWaveHeader:1.0.0-alpha-1'
 
 
 }

@@ -99,6 +99,7 @@
         app:pressedTranslationZ="10dp"
         android:src="@drawable/fun4"
         app:borderWidth="0dp"
+        android:visibility="gone"
         >
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
     <ImageView

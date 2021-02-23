@@ -128,10 +128,14 @@ public class ChangePwdActivity extends BaseActivity{
             public void onResponse(String response) {
                 LogUtils.d("222222 onResponse " + response.toString());
                 if (response!=null&&!response.isEmpty()){
-                    ChangePwdBean loginBean = JSONObject.parseObject(response, new TypeReference<ChangePwdBean>() {});
-                    if (loginBean.getCode()==200){
+                    ChangePwdBean changePwdBean = JSONObject.parseObject(response, new TypeReference<ChangePwdBean>() {});
+                    if (changePwdBean.getCode()==200){
                         ToastUtils.showShort("密码修改成功,请重新登录");
-                        startActivity(new Intent(ChangePwdActivity.this,LoginActivity.class));
+//                        SharedPreferencesUtil.setString(ChangePwdActivity.this, "pwd", pwdNew);
+                        startActivity(new Intent(ChangePwdActivity.this,LoginActivity.class).putExtra("from","ChangePwdActivity"));
+                        finish();
+                    }else {
+                        ToastUtils.showShort(changePwdBean.getMsg());
                     }
                 }
             }

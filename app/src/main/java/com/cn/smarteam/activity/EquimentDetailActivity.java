@@ -54,6 +54,8 @@ public class EquimentDetailActivity extends AppCompatActivity implements View.On
     TextView tvBack;
     @BindView(R.id.ll_back)
     LinearLayout llBack;
+    @BindView(R.id.ll_right)
+    LinearLayout llRight;
     @BindView(R.id.tv_common_title)
     TextView tvCommonTitle;
     @BindView(R.id.tv_title)
@@ -143,6 +145,7 @@ public class EquimentDetailActivity extends AppCompatActivity implements View.On
 
     private void initView() {
         tvCommonTitle.setText("设备详情");
+        llRight.setVisibility(View.VISIBLE);
         tvTitle.setText("工单详情");
         tvNo.setText(listBean.getAssetNum());
         tvStatue.setText(listBean.getStatusValue());
@@ -191,7 +194,7 @@ private void query() {
     map.put("pageSize", 10 + "");
 //        String assetNum = mListBean.getAssetNum();
 //        assetNum = URLEncoder.encode(assetNum);
-    map.put("woNum",listBean.getAssetNum());
+    map.put("assetNum",listBean.getAssetNum());
 
     HashMap<String, String> headermap = new HashMap<>();
     headermap.put("authorization", SharedPreferencesUtil.getString(MyApplication.applicationContext, "authorization"));
@@ -269,10 +272,6 @@ private void query() {
         }
     });
 }
-
-
-
-
     private void finishRefresh() {
         if (isRefresh) refreshLayout.finishRefresh();
         else refreshLayout.finishLoadMore();

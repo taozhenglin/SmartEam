@@ -17,7 +17,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/buttom_press_bg"
         android:padding="5dp"
         android:translationZ="5dp"
         app:cardCornerRadius="8dp">
@@ -45,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="设备台账"
+                android:textColor="@color/textColor"
                 android:textSize="20sp"
 
 
@@ -67,8 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/dp10"
-            >
+            android:padding="@dimen/dp10">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="专家类库"
+                    android:textColor="@color/textColor"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -101,10 +101,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/dp10"
                 android:layout_marginTop="@dimen/dp5"
-                >
+                android:orientation="horizontal"
+                android:padding="@dimen/dp10">
 
                 <TextView
                     android:id="@+id/tv_trouble"
@@ -116,6 +115,7 @@
                     android:drawableLeft="@drawable/trouble_list"
                     android:gravity="center_vertical"
                     android:text="故障知识库"
+                    android:textColor="@color/textColor"
                     android:textSize="16sp" />
 
                 <TextView
@@ -127,8 +127,8 @@
                     android:background="@drawable/buttom_press_bg"
                     android:drawableLeft="@drawable/zuoye"
                     android:gravity="center_vertical"
-
                     android:text="标准作业"
+                    android:textColor="@color/textColor"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -152,15 +152,30 @@
             android:orientation="vertical"
             android:padding="@dimen/dp10">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dp5"
-                android:drawableLeft="@drawable/pro_manage"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp5"
-                android:text="运维管理"
-                android:textSize="20sp" />
+
+                >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/pro_manage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="运维管理"
+                    android:layout_marginLeft="10dp"
+
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -189,7 +204,7 @@
                     android:drawableLeft="@drawable/maintain"
                     android:gravity="center_vertical"
                     android:text="保养计划"
-
+                    android:textColor="@color/textColor"
                     android:textSize="16sp" />
 
                 <TextView
@@ -202,6 +217,7 @@
                     android:drawableLeft="@drawable/taizhang"
                     android:gravity="center_vertical"
                     android:text="点巡检工单"
+                    android:textColor="@color/textColor"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -223,7 +239,7 @@
                     android:drawableLeft="@drawable/toubiao"
                     android:gravity="center_vertical"
                     android:text="维修工单"
-
+                    android:textColor="@color/textColor"
                     android:textSize="16sp" />
 
                 <TextView
@@ -237,7 +253,7 @@
                     android:drawableLeft="@drawable/contract"
                     android:gravity="center_vertical"
                     android:text="保养工单"
-
+                    android:textColor="@color/textColor"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -258,6 +274,7 @@
                     android:drawableLeft="@drawable/report"
                     android:gravity="center_vertical"
                     android:text="快速汇报"
+                    android:textColor="@color/textColor"
                     android:textSize="16sp" />
             </LinearLayout>
 

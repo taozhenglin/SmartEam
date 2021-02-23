@@ -122,7 +122,7 @@ public class SharedPreferencesUtil {
     public static float getFloat(Context context, String key) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(
                 Constants.SHARE_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        float signature = sharedPreferences.getFloat(key, 1.0f);
+        float signature = sharedPreferences.getFloat(key, 14.0f);
         return signature;
     }
 

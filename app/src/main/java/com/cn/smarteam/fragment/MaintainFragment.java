@@ -103,6 +103,8 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
         tv_unselect_all = view.findViewById(R.id.tv_unselect_all);
         tv_commit_all = view.findViewById(R.id.tv_commit_all);
         flab = view.findViewById(R.id.flab);
+//        flab.setVisibility(View.VISIBLE);
+
         nodata = view.findViewById(R.id.nodata);
         nonet = view.findViewById(R.id.nonet);
         if (!NetWorkUtil.isConnected(mContext)) {
@@ -370,7 +372,7 @@ public class MaintainFragment extends Fragment implements View.OnClickListener {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getNotify(PostData postData) {
-        if (postData.getTag().equals("query")) {
+        if (postData.getTag().equals("query")||postData.getTag().equals("保养工单操作成功")) {
             query();
         }
     }

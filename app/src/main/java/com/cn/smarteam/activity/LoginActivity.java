@@ -65,9 +65,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     LinearLayout llPassword;
     TextView tvLoginIn;
     TextView tv_modify_pwd;
-     boolean showPwd = false;
-     String usernameTag;
+    boolean showPwd = false;
+    String usernameTag;
     String pwdTag;
+     String from;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,16 +77,49 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //隐藏标题栏
         getSupportActionBar().hide();
         StatusBarUtils.setWhiteStatusBarColor(this, R.color.white);
+
         edtUsername = findViewById(R.id.edt_username);
         ivClear1 = findViewById(R.id.iv_clear1);
         edtPassword = findViewById(R.id.edt_password);
         ivClear2 = findViewById(R.id.iv_clear2);
         tv_modify_pwd = findViewById(R.id.tv_modify_pwd);
         tvLoginIn = findViewById(R.id.tv_login_in);
+            if (TextUtils.isEmpty(SharedPreferencesUtil.getString(this, "userName"))) {
+                edtUsername.setText("");
+                ivClear1.setVisibility(View.GONE);
+            } else{
+                edtUsername.setText(SharedPreferencesUtil.getString(this, "userName"));
+                ivClear1.setVisibility(View.VISIBLE);
+            }
+            if (TextUtils.isEmpty(SharedPreferencesUtil.getString(this, "pwd"))) {
+                edtPassword.setText("");
+                ivClear2.setVisibility(View.GONE);
+            }else{
+                edtPassword.setText(SharedPreferencesUtil.getString(this, "pwd"));
+                ivClear2.setVisibility(View.VISIBLE);
+            }
+            if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(this, "userName"))&&!TextUtils.isEmpty(SharedPreferencesUtil.getString(this, "pwd"))){
+                usernameTag=(SharedPreferencesUtil.getString(this, "userName"));
+                pwdTag=SharedPreferencesUtil.getString(this, "pwd");
+            }
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("from"))) {//来自修改密码
+            from = getIntent().getStringExtra("from");
+            if (from.equals("ChangePwdActivity")) {
+                edtUsername.setText("");
+                edtPassword.setText("");
+                ivClear1.setVisibility(View.GONE);
+                ivClear2.setVisibility(View.GONE);
+                usernameTag="";
+                pwdTag="";
+            }
+        }
+
         init();
     }
 
     private void init() {
+
         ivClear1.setOnClickListener(this);
         ivClear2.setOnClickListener(this);
         tvLoginIn.setOnClickListener(this);
@@ -111,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edtUsername.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                usernameTag=charSequence.toString();
+                usernameTag = charSequence.toString();
             }
 
             @Override
@@ -139,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edtPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                pwdTag=charSequence.toString();
+                pwdTag = charSequence.toString();
             }
 
             @Override
@@ -156,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     tvLoginIn.setEnabled(false);
                 } else {
                     ivClear2.setVisibility(View.VISIBLE);
-                    if (!TextUtils.isEmpty(usernameTag)){
+                    if (!TextUtils.isEmpty(usernameTag)) {
                         tvLoginIn.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_radis_30_accent));
                         tvLoginIn.setEnabled(true);
                     }
@@ -164,7 +198,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
-        if (TextUtils.isEmpty(usernameTag)||TextUtils.isEmpty(pwdTag)){
+        if (TextUtils.isEmpty(usernameTag) || TextUtils.isEmpty(pwdTag)) {
             tvLoginIn.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_radis_30_gray));
             tvLoginIn.setEnabled(false);
         }
@@ -195,7 +229,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (!response.isEmpty()) {
                     try {
                         LoginBean loginBean = JSONObject.parseObject(response, new TypeReference<LoginBean>() {});
-                        if (loginBean.getCode()==200) {
+                        if (loginBean.getCode() == 200) {
                             SharedPreferencesUtil.setString(LoginActivity.this, "userName", loginBean.getData().getUserName());
                             SharedPreferencesUtil.setString(LoginActivity.this, "pwd", pwd);
                             SharedPreferencesUtil.setString(LoginActivity.this, "userId", loginBean.getData().getUserId());
@@ -203,15 +237,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             SharedPreferencesUtil.setString(LoginActivity.this, "personNum", loginBean.getData().getPersonNum());
                             SharedPreferencesUtil.setString(LoginActivity.this, "phoneNum", loginBean.getData().getPhoneNum());
                             SharedPreferencesUtil.setString(LoginActivity.this, "authorization", loginBean.getData().getAuthorization());
-                          SharedPreferencesUtil.setString(LoginActivity.this,"logintime",  DateUtils.getStringDate());
+                            SharedPreferencesUtil.setString(LoginActivity.this, "logintime", DateUtils.getStringDate());
+                            SharedPreferencesUtil.setInt(LoginActivity.this, "waitdocount", loginBean.getData().getCount());
+
                             ToastUtils.showShort("登录成功");
-                            startActivity(new Intent(MyApplication.applicationContext,MainActivity.class));
+                            startActivity(new Intent(MyApplication.applicationContext, MainActivity.class));
 
                             finish();
                         } else {
                             ToastUtils.showShort(loginBean.getMsg());
                         }
-                    }catch (com.alibaba.fastjson.JSONException exception){
+                    } catch (com.alibaba.fastjson.JSONException exception) {
                         ToastUtils.showShort(exception.toString());
                     }
                 }
@@ -234,7 +270,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.iv_clear1:
                 edtUsername.setText("");
-                usernameTag="";
+                usernameTag = "";
                 break;
             case R.id.iv_clear2:
                 if (!showPwd) {

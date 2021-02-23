@@ -394,6 +394,16 @@ public class DxjWorkOrderListBean {
             private Object quick;
             private boolean isChecked;
 
+            public int getCount() {
+                return count;
+            }
+
+            public void setCount(int count) {
+                this.count = count;
+            }
+
+            int count;
+
             public int getWorkOrderId() {
                 return workOrderId;
             }

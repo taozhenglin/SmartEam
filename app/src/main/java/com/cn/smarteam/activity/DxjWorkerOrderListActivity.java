@@ -54,7 +54,6 @@ public class DxjWorkerOrderListActivity extends BaseListActivity {
     @Override
     public void initEvent() {
         ld = new LoadingDialog(MyApplication.applicationContext);
-
         query(0);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -66,9 +65,6 @@ public class DxjWorkerOrderListActivity extends BaseListActivity {
                     query(0);
                 }else
                     query(3);
-
-
-
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -199,11 +195,10 @@ public class DxjWorkerOrderListActivity extends BaseListActivity {
                             }
                             if (adapter.getData().size() == 0) {
                                 nodata.setVisibility(View.VISIBLE);
-
                             }
 
                         } else {
-                            refreshLayout.setVisibility(View.GONE);
+//                            refreshLayout.setVisibility(View.GONE);
                             nodata.setVisibility(View.VISIBLE);
                         }
                     }

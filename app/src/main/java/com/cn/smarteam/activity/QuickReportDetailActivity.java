@@ -170,6 +170,7 @@ public class QuickReportDetailActivity extends AppCompatActivity implements View
         tv_common_title.setText(title);
         ll_back = findViewById(R.id.ll_back);
         ll_right = findViewById(R.id.ll_right);
+        ll_right.setBackground(getResources().getDrawable(R.drawable.shape_radis_5_grenn));
         ll_right.setVisibility(View.VISIBLE);
         tv_title = findViewById(R.id.tv_title);
         iv_fun = findViewById(R.id.iv_fun);

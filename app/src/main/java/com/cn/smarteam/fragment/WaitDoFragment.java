@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.MutableContextWrapper;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -16,7 +15,6 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.CheckBox;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -34,20 +32,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cn.smarteam.R;
-import com.cn.smarteam.activity.ChangePwdActivity;
-import com.cn.smarteam.activity.DianXunJianGongdanDetailActivity;
-import com.cn.smarteam.activity.DxjWorkerOrderListActivity;
-import com.cn.smarteam.activity.LoginActivity;
 import com.cn.smarteam.activity.MainTainWorkOrderDetailActivity;
 import com.cn.smarteam.activity.QuickReportDetailActivity;
 import com.cn.smarteam.adapter.CommonAdapter;
 import com.cn.smarteam.base.CommonViewHolder;
 import com.cn.smarteam.base.Constants;
 import com.cn.smarteam.base.MyApplication;
-import com.cn.smarteam.bean.ChangePwdBean;
 import com.cn.smarteam.bean.DxjWorkOrderListBean;
 import com.cn.smarteam.bean.PostData;
-import com.cn.smarteam.bean.WaitDoListBean;
 import com.cn.smarteam.net.CallBackUtil;
 import com.cn.smarteam.net.OkhttpUtil;
 import com.cn.smarteam.utils.HighLightUtils;
@@ -116,6 +108,7 @@ public class WaitDoFragment extends Fragment implements View.OnClickListener {
         tv_unselect_all = view.findViewById(R.id.tv_unselect_all);
         tv_commit_all = view.findViewById(R.id.tv_commit_all);
         flab = view.findViewById(R.id.flab);
+//        flab.setVisibility(View.VISIBLE);
         nodata = view.findViewById(R.id.nodata);
         nonet = view.findViewById(R.id.nonet);
         if (!NetWorkUtil.isConnected(mContext)) {
@@ -199,6 +192,7 @@ public class WaitDoFragment extends Fragment implements View.OnClickListener {
                         LogUtils.d("222222 list.size()="+list.size());
                         int totalpage=waitDoListBean.getData().getPages();
                         int total=waitDoListBean.getData().getTotal();
+                        SharedPreferencesUtil.setInt(mContext, "waitdocount", list.get(0).getCount());
 
                         if (total > 0) {
                             nodata.setVisibility(View.GONE);
@@ -453,7 +447,7 @@ public class WaitDoFragment extends Fragment implements View.OnClickListener {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getNotify(PostData postData) {
-        if (postData.getTag().equals("query")) {
+        if (postData.getTag().equals("query")||postData.getTag().equals("维修工单详情")||postData.getTag().equals("点巡检工单详情")||postData.getTag().equals("保养工单操作成功")) {
             query();
         }
     }

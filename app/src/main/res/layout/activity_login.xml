@@ -2,7 +2,22 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+    <com.scwang.wave.MultiWaveHeader
+
+        android:id="@+id/waveHeader"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:mwhVelocity="1"
+        app:mwhProgress="1"
+        app:mwhGradientAngle="45"
+        app:mwhWaveHeight="50dp"
+        app:mwhColorAlpha="0.45"
+        app:mwhStartColor="@color/colorAccent"
+        app:mwhCloseColor="@color/colorAccent2"
+        app:mwhWaves="MultiWave">
+    </com.scwang.wave.MultiWaveHeader>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -54,7 +69,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/clear"
-                android:visibility="gone">
+                >
 
             </ImageView>>
 
@@ -88,7 +103,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/eye_close"
-                android:visibility="gone">
+                >
 
             </ImageView>>
         </LinearLayout>
@@ -115,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp40"
             android:layout_marginLeft="@dimen/dp20"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="80dp"
             android:layout_marginRight="@dimen/dp20"
             android:background="@drawable/shape_radis_30_accent"
             android:gravity="center"

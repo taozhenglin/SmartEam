@@ -244,7 +244,7 @@ public class EqumentAccountListActivity extends BaseListActivity {
                             }
 
                         } else {
-                            refreshLayout.setVisibility(View.GONE);
+//                            refreshLayout.setVisibility(View.GONE);
                             nodata.setVisibility(View.VISIBLE);
                         }
                     }

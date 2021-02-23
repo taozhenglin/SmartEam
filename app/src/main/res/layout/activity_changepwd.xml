@@ -1,105 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-<include layout="@layout/activity_common_title"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp40"
-        android:orientation="horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="@dimen/dp20"
-        android:gravity="center_vertical"
-        >
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/textColor"
-        android:text="请输入原始密码："
-        />
-
-        <EditText
-            android:id="@+id/edt_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            />
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp40"
-        android:orientation="horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="@dimen/dp10"
-        android:gravity="center_vertical"
+        android:orientation="vertical"
         >
+        <include layout="@layout/activity_common_title"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp40"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="@dimen/dp20"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/textColor"
+                android:text="请输入原始密码："
+                />
+
+            <EditText
+                android:id="@+id/edt_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp40"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/textColor"
+                android:text="请输入新密码："
+                />
+
+            <EditText
+                android:id="@+id/edt_pwd_new"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp40"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/textColor"
+                android:text="再次输入新密码："
+                />
+
+            <EditText
+                android:id="@+id/edt_pwd_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+
+
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/textColor"
-            android:text="请输入新密码："
-            />
-
-        <EditText
-            android:id="@+id/edt_pwd_new"
+            android:id="@+id/tv_commit"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp40"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="@dimen/dp20"
+            android:background="@drawable/shape_radis_30_accent"
+            android:gravity="center"
+            android:text="提        交"
+            android:textColor="@color/white"
+            android:textSize="18sp"
 
             />
-
-
     </LinearLayout>
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp40"
-        android:orientation="horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="@dimen/dp10"
-        android:gravity="center_vertical"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/textColor"
-            android:text="再次输入新密码："
-            />
-
-        <EditText
-            android:id="@+id/edt_pwd_confirm"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            />
-
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_commit"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp40"
-        android:layout_marginLeft="@dimen/dp20"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="@dimen/dp20"
-        android:background="@drawable/shape_radis_30_accent"
-        android:gravity="center"
-        android:text="提        交"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/changepwd"
+        android:layout_marginTop="48dp"
         />
-</LinearLayout>
+
+</RelativeLayout>
